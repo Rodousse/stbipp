@@ -14,12 +14,12 @@ option(STBIPP_BUILD_EXAMPLE "Build STBIPP examples" ON)
 
 include(FetchContent)
 include(CMakePackageConfigHelpers)
-include(cmake/CMakeFunctions.cmake)
+include(GenerateExportHeader)
 
 
 
 # Path to use for cmake generated files
-set(GENERATED_DIR "${CMAKE_BINARY_DIR}/generated")
+set(GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 message(STATUS "Generated files goes in : ${GENERATED_DIR}")
 file(MAKE_DIRECTORY ${GENERATED_DIR})
 
@@ -35,9 +35,6 @@ if(NOT stb_content_POPULATED)
 endif()
 message(STATUS ${stb_content_SOURCE_DIR})
 
-#add_library(stb INTERFACE)
-#target_include_directories(stb INTERFACE ${stb_content_SOURCE_DIR})
-
 ################################### Implementation ##############################
 set(STBIPP_SOURCES
     src/Image.cpp
@@ -48,35 +45,43 @@ set(STBIPP_HEADERS
     src/stbipp/ImageImporter.hpp
     src/stbipp/TypeTraits.hpp)
 
-set(STBIPP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
+set(STBIPP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/stbipp)
 
-declare_symbols(STBIPP STBIPP_API ${GENERATED_DIR}/StbippSymbols.h)
 if(${STBIPP_SHARED})
     add_library(${PROJECT_NAME} SHARED ${STBIPP_SOURCES} ${STBIPP_HEADERS})
 else()
     add_library(${PROJECT_NAME} STATIC ${STBIPP_SOURCES} ${STBIPP_HEADERS})
 endif()
 
+
+generate_export_header(${PROJECT_NAME}
+  EXPORT_MACRO_NAME STBIPP_API
+  EXPORT_FILE_NAME ${GENERATED_DIR}/StbippSymbols.h
+)
+
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${stb_content_SOURCE_DIR}
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<BUILD_INTERFACE:${GENERATED_DIR}>
-    $<INSTALL_INTERFACE:${STBIPP_INCLUDE_DIR}>
+    $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
     )
 
 
-if(${STBIPP_SHARED})
-    target_compile_definitions(${PROJECT_NAME} PUBLIC STBIPP_SHARED PRIVATE STBIPP_EXPORT)
+if(NOT ${STBIPP_SHARED})
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS -DSTBIPP_STATIC_DEFINE)
 endif()
 
 
+################################### Install/Packaging ##############################
+
 set(CONFIG_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}")
 
-install(DIRECTORY src/stbipp DESTINATION ${STBIPP_INCLUDE_DIR}
+install(DIRECTORY src/stbipp DESTINATION ${INCLUDE_INSTALL_DIR}
         FILES_MATCHING PATTERN "*.hpp")
 
-install(FILES ${GENERATED_DIR}/StbippSymbols.h DESTINATION ${STBIPP_INCLUDE_DIR}/stbipp)
+install(FILES ${GENERATED_DIR}/StbippSymbols.h DESTINATION ${STBIPP_INCLUDE_DIR})
 
 install(TARGETS
     ${PROJECT_NAME}
