@@ -9,7 +9,7 @@ namespace stbipp {
 
 STBIPP_API void freeStbData(void* data);
 
-enum class STBIPP_API ImageFormat
+enum class ImageFormat
 {
     //Luminance
     LUM8,
@@ -32,7 +32,7 @@ enum class STBIPP_API ImageFormat
 };
 
 template <class PixelType>
-class STBIPP_API Image
+class Image
 {
     PixelType* m_data;
     int m_width;

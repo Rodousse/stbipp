@@ -9,7 +9,7 @@
 namespace stbipp {
 
 template <stbipp::ImageFormat pixelFormat>
-STBIPP_API stbipp::Image<PixelTypeTrait_t<pixelFormat>> loadImage(
+stbipp::Image<PixelTypeTrait_t<pixelFormat>> loadImage(
         const std::string& path);
 
 STBIPP_API unsigned char* loadUCharImage(const std::string& path, int& width, int& height,
@@ -26,8 +26,8 @@ STBIPP_API float* loadFloatImage(const std::string& path, int& width, int& heigh
 namespace {
 
 template <class PixelType>
-STBIPP_API stbipp::Image<PixelType> loadImage(const std::string& path,
-        const stbipp::ImageFormat& format);
+stbipp::Image<PixelType> loadImage(const std::string& path,
+                                   const stbipp::ImageFormat& format);
 
 template <>
 stbipp::Image<float> loadImage<float>(const std::string& path, const stbipp::ImageFormat& format)

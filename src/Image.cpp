@@ -1,5 +1,7 @@
-#include "stbipp/Image.hpp"
 #define STB_IMAGE_IMPLEMENTATION
+
+#include "stbipp/Image.hpp"
+
 #include <stb_image.h>
 
 namespace stbipp {
