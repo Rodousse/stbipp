@@ -44,6 +44,7 @@ set(STBIPP_SOURCES
     src/ImageImporter.cpp)
 
 set(STBIPP_HEADERS
+    src/stbipp/Color.hpp
     src/stbipp/Image.hpp
     src/stbipp/ImageFormat.hpp
     src/stbipp/ImageImporter.hpp
