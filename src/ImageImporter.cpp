@@ -1,3 +1,5 @@
+#define STB_IMAGE_IMPLEMENTATION
+
 #include "stbipp/ImageImporter.hpp"
 
 #include <stb_image.h>
@@ -66,6 +68,14 @@ float* loadFloatImage(const std::string& path, int& width, int& height,
 {
     int channels;
     return stbi_loadf(path.data(), &width, &height, &channels, deduceSTBIType(format));
+}
+
+void freeStbData(void* data)
+{
+    if(data)
+    {
+        stbi_image_free(data);
+    }
 }
 
 }

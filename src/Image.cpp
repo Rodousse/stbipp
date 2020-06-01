@@ -1,18 +1,7 @@
-#define STB_IMAGE_IMPLEMENTATION
-
 #include "stbipp/Image.hpp"
-
-#include <stb_image.h>
 
 namespace stbipp {
 
-void freeStbData(void* data)
-{
-    if(data)
-    {
-        stbi_image_free(data);
-    }
-}
 
 bool isFormat8Bits(const ImageFormat& format)
 {

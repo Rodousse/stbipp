@@ -8,7 +8,7 @@
 
 namespace stbipp {
 
-template <ImageFormat pixelFormat>
+template <ImageFormat pixelFormat = ImageFormat::RGBA8>
 Image<pixelFormat> loadImage(const std::string& path);
 
 STBIPP_API unsigned char* loadUCharImage(const std::string& path, int& width, int& height,
@@ -17,6 +17,9 @@ STBIPP_API unsigned short* loadUShortImage(const std::string& path, int& width, 
         const stbipp::ImageFormat& format);
 STBIPP_API float* loadFloatImage(const std::string& path, int& width, int& height,
                                  const stbipp::ImageFormat& format);
+
+
+STBIPP_API void freeStbData(void* data);
 
 }
 
@@ -62,7 +65,9 @@ Image<pixelFormat> loadImage(const std::string& path)
     int width{};
     int height{};
     auto data = ::loadRawImage<PixelTypeTrait_t<pixelFormat>>(path, width, height, pixelFormat);
-    return Image<pixelFormat>(data, width, height);
+    auto image = Image<pixelFormat>(data, width, height);
+    freeStbData(data);
+    return image;
 }
 
 }
