@@ -60,11 +60,12 @@ unsigned short* loadRawImage<unsigned short>(const std::string& path, int& width
 namespace stbipp {
 
 template <ImageFormat pixelFormat>
-Image<pixelFormat> loadImage(const std::string& path)
+Image<pixelFormat> loadImage(const std::string& path, bool& success)
 {
     int width{};
     int height{};
     auto data = ::loadRawImage<PixelTypeTrait_t<pixelFormat>>(path, width, height, pixelFormat);
+    success = data != nullptr;
     auto image = Image<pixelFormat>(data, width, height);
     freeStbData(data);
     return image;
