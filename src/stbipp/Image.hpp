@@ -62,7 +62,7 @@ public:
             std::size_t columnIndex{0};
             for(auto& pixel : rowData)
             {
-                m_data[rowIndex][columnIndex] = static_cast<PixelType>(other(rowIndex, columnIndex));
+                m_data[rowIndex][columnIndex] = static_cast<PixelType>(other(columnIndex, rowIndex));
                 ++columnIndex;
             }
             ++rowIndex;
@@ -87,7 +87,7 @@ public:
 
     const PixelDataType* data() const
     {
-        return m_data;
+        return m_data[0][0].data();
     }
 
     const ImageFormat& format() const
@@ -105,12 +105,12 @@ public:
         return m_width;
     }
 
-    PixelType operator()(std::size_t row, std::size_t column) const
+    PixelType operator()(std::size_t column, std::size_t row) const
     {
         return m_data[row][column];
     }
 
-    PixelType& operator()(std::size_t row, std::size_t column)
+    PixelType& operator()(std::size_t column, std::size_t row)
     {
         return m_data[row][column];
     }
