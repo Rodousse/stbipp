@@ -8,9 +8,8 @@
 
 namespace stbipp {
 
-template <stbipp::ImageFormat pixelFormat>
-stbipp::Image<PixelTypeTrait_t<pixelFormat>> loadImage(
-        const std::string& path);
+template <ImageFormat pixelFormat>
+Image<pixelFormat> loadImage(const std::string& path);
 
 STBIPP_API unsigned char* loadUCharImage(const std::string& path, int& width, int& height,
         const stbipp::ImageFormat& format);
@@ -26,53 +25,44 @@ STBIPP_API float* loadFloatImage(const std::string& path, int& width, int& heigh
 namespace {
 
 template <class PixelType>
-stbipp::Image<PixelType> loadImage(const std::string& path,
-                                   const stbipp::ImageFormat& format);
+PixelType* loadRawImage(const std::string& path, int& width, int& height,
+                        const stbipp::ImageFormat& format);
 
 template <>
-stbipp::Image<float> loadImage<float>(const std::string& path, const stbipp::ImageFormat& format)
+float* loadRawImage<float>(const std::string& path, int& width, int& height,
+                           const stbipp::ImageFormat& format)
 {
-    int width;
-    int height;
-    float* data = stbipp::loadFloatImage(path, width, height, format);
-
-    stbipp::Image<float> image(data, width, height, format);
-    return image;
+    return stbipp::loadFloatImage(path, width, height, format);
 }
 
 template <>
-stbipp::Image<unsigned char> loadImage<unsigned char>(const std::string& path,
+unsigned char* loadRawImage<unsigned char>(const std::string& path, int& width,
+        int& height,
         const stbipp::ImageFormat& format)
 {
-    int width;
-    int height;
-    unsigned char* data = stbipp::loadUCharImage(path, width, height, format);
-    stbipp::Image<unsigned char> image(data, width, height, format);
-    return image;
+    return stbipp::loadUCharImage(path, width, height, format);
 }
 
 
 template <>
-stbipp::Image<unsigned short> loadImage<unsigned short>(const std::string& path,
+unsigned short* loadRawImage<unsigned short>(const std::string& path, int& width,
+        int& height,
         const stbipp::ImageFormat& format)
 {
-    int width;
-    int height;
-    unsigned short* data = stbipp::loadUShortImage(path, width, height, format);
-
-    stbipp::Image<unsigned short> image(data, width, height, format);
-    return image;
+    return stbipp::loadUShortImage(path, width, height, format);
 }
 
 }
 
 namespace stbipp {
 
-template <stbipp::ImageFormat pixelFormat>
-stbipp::Image<PixelTypeTrait_t<pixelFormat>> loadImage(
-        const std::string& path)
+template <ImageFormat pixelFormat>
+Image<pixelFormat> loadImage(const std::string& path)
 {
-    return ::loadImage<PixelTypeTrait_t<pixelFormat>>(path, pixelFormat);
+    int width{};
+    int height{};
+    auto data = ::loadRawImage<PixelTypeTrait_t<pixelFormat>>(path, width, height, pixelFormat);
+    return Image<pixelFormat>(data, width, height);
 }
 
 }

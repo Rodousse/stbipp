@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stbipp/Image.hpp"
+#include "stbipp/ImageFormat.hpp"
 
 namespace stbipp {
 

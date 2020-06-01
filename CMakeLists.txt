@@ -45,6 +45,7 @@ set(STBIPP_SOURCES
 
 set(STBIPP_HEADERS
     src/stbipp/Image.hpp
+    src/stbipp/ImageFormat.hpp
     src/stbipp/ImageImporter.hpp
     src/stbipp/TypeTraits.hpp)
 

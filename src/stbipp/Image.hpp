@@ -2,6 +2,8 @@
 
 #include "StbippSymbols.h"
 
+#include "stbipp/TypeTraits.hpp"
+
 #include <memory>
 
 
@@ -9,48 +11,24 @@ namespace stbipp {
 
 STBIPP_API void freeStbData(void* data);
 
-enum class ImageFormat
-{
-    //Luminance
-    LUM8,
-    LUM16,
-    LUM32,// Float Luminance
-    // 2 Components per pixel
-    LUMA8,
-    LUMA16,
-    LUMA32,// Float RG
-    // 3 Components per pixel
-    RGB8,
-    RGB16,
-    RGB32,// Float RGB
-    //4 Components per pixel
-    RGBA8,
-    RGBA16,
-    RGBA32,// Float RGBA
 
-    UNDEFINED = -1
-};
-
-template <class PixelType>
+template <ImageFormat pixelFormat>
 class Image
 {
-    PixelType* m_data;
-    int m_width;
-    int m_height;
-    ImageFormat m_format;
-
-
 public:
-    Image(PixelType* data, const int& width, const int& height, const ImageFormat& format):
+    using PixelDataType = PixelTypeTrait_t<pixelFormat>;
+
+
+    Image(PixelDataType* data, const int& width, const int& height):
         m_data(data),
         m_width(width),
         m_height(height),
-        m_format(format)
+        m_format(pixelFormat)
     {
     }
 
-    template<class otherPixelType>
-    Image(const Image<otherPixelType>& other) = delete;
+    template<ImageFormat otherPixelDataFormat>
+    Image(const Image<otherPixelDataFormat>& other) = delete;
 
     Image(const Image& other):
         m_data(other.m_data),
@@ -74,7 +52,7 @@ public:
         freeStbData(m_data);
     }
 
-    const PixelType* data() const
+    const PixelDataType* data() const
     {
         return m_data;
     }
@@ -94,7 +72,15 @@ public:
         return m_width;
     }
 
+private:
+
+    PixelDataType* m_data;
+    int m_width;
+    int m_height;
+    ImageFormat m_format;
+
 };
+
 
 STBIPP_API bool isFormat8Bits(const ImageFormat& format);
 
@@ -102,5 +88,8 @@ STBIPP_API bool isFormat16Bits(const ImageFormat& format);
 
 STBIPP_API bool isFormat32Bits(const ImageFormat& format);
 
+
 }
+
+
 
