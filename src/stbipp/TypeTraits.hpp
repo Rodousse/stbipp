@@ -2,6 +2,8 @@
 
 #include "stbipp/ImageFormat.hpp"
 
+#include <type_traits>
+
 namespace stbipp {
 
 
@@ -100,5 +102,10 @@ template <ImageFormat pixelFormat>
 using PixelTypeTrait_t = typename PixelTypeTrait<pixelFormat>::type;
 template <ImageFormat pixelFormat>
 static constexpr int PixelTypeTrait_s = PixelTypeTrait<pixelFormat>::size;
+
+template <class DataType, int nbComponent>
+constexpr bool is_color_format_supported = (std::is_same<DataType, unsigned short>::value
+        || std::is_same<DataType, unsigned char>::value
+        || std::is_same<DataType, float>::value) && (nbComponent > 0) && (nbComponent < 5) ;
 
 }

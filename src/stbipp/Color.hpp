@@ -7,7 +7,7 @@
 namespace stbipp {
 
 
-template<class DataType, int nbComponents>
+template<class DataType, int nbComponents, typename = typename std::enable_if<is_color_format_supported<DataType, nbComponents>>::type>
 class Color
 {
 public:
