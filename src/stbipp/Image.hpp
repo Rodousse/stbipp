@@ -21,16 +21,23 @@ public:
     using PixelType = Color<PixelTypeTrait_t<pixelFormat>, PixelTypeTrait_s<pixelFormat>>;
 
 
-    Image(PixelDataType* data, const int& width, const int& height):
+    Image() = default;
+
+    Image(int width, int height):
         m_width(width),
         m_height(height),
         m_format(pixelFormat)
     {
-        m_data.resize(height);
+        resizeData(width, height);
+    }
+
+
+    Image(PixelDataType* data, int width, int height):
+        Image(width, height)
+    {
         std::size_t rowIndex{0};
         for(auto& rowData : m_data)
         {
-            rowData.resize(width);
             std::size_t columnIndex{0};
             for(auto& pixel : rowData)
             {
@@ -47,15 +54,11 @@ public:
     }
 
     template<ImageFormat otherPixelDataFormat> Image(const Image<otherPixelDataFormat>& other):
-        m_width(other.width()),
-        m_height(other.height()),
-        m_format(pixelFormat)
+        Image(other.width(), other.height())
     {
-        m_data.resize(other.height());
         std::size_t rowIndex{0};
         for(auto& rowData : m_data)
         {
-            rowData.resize(other.width());
             std::size_t columnIndex{0};
             for(auto& pixel : rowData)
             {
@@ -67,10 +70,8 @@ public:
     };
 
     Image(const Image& other):
-        m_data(other.m_data),
-        m_width(other.width()),
-        m_height(other.height()),
-        m_format(other.format())
+        Image(other.width, other.height),
+        m_data(other.m_data)
     {
     }
 
@@ -115,6 +116,15 @@ public:
     }
 
 private:
+
+    void resizeData(int width, int height)
+    {
+        m_data.resize(height);
+        for(auto& row : m_data)
+        {
+            row.resize(width);
+        }
+    }
 
     std::vector<std::vector<PixelType>> m_data;
     int m_width;
