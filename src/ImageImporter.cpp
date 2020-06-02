@@ -47,6 +47,8 @@ constexpr int deduceSTBIType(const stbipp::ImageFormat& format)
 
 namespace stbipp {
 
+namespace stbi {
+
 unsigned char* loadUCharImage(const std::string& path, int& width, int& height,
                               const stbipp::ImageFormat& format)
 {
@@ -76,6 +78,8 @@ void freeStbData(void* data)
     {
         stbi_image_free(data);
     }
+}
+
 }
 
 }

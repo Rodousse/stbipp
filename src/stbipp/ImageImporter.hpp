@@ -11,15 +11,16 @@ namespace stbipp {
 template <ImageFormat pixelFormat = ImageFormat::RGBA8>
 Image<pixelFormat> loadImage(const std::string& path);
 
+
+namespace stbi {
 STBIPP_API unsigned char* loadUCharImage(const std::string& path, int& width, int& height,
         const stbipp::ImageFormat& format);
 STBIPP_API unsigned short* loadUShortImage(const std::string& path, int& width, int& height,
         const stbipp::ImageFormat& format);
 STBIPP_API float* loadFloatImage(const std::string& path, int& width, int& height,
                                  const stbipp::ImageFormat& format);
-
-
 STBIPP_API void freeStbData(void* data);
+}
 
 }
 
@@ -35,7 +36,7 @@ template <>
 float* loadRawImage<float>(const std::string& path, int& width, int& height,
                            const stbipp::ImageFormat& format)
 {
-    return stbipp::loadFloatImage(path, width, height, format);
+    return stbipp::stbi::loadFloatImage(path, width, height, format);
 }
 
 template <>
@@ -43,7 +44,7 @@ unsigned char* loadRawImage<unsigned char>(const std::string& path, int& width,
         int& height,
         const stbipp::ImageFormat& format)
 {
-    return stbipp::loadUCharImage(path, width, height, format);
+    return stbipp::stbi::loadUCharImage(path, width, height, format);
 }
 
 
@@ -52,7 +53,7 @@ unsigned short* loadRawImage<unsigned short>(const std::string& path, int& width
         int& height,
         const stbipp::ImageFormat& format)
 {
-    return stbipp::loadUShortImage(path, width, height, format);
+    return stbipp::stbi::loadUShortImage(path, width, height, format);
 }
 
 }
@@ -67,7 +68,7 @@ Image<pixelFormat> loadImage(const std::string& path, bool& success)
     auto data = ::loadRawImage<PixelTypeTrait_t<pixelFormat>>(path, width, height, pixelFormat);
     success = data != nullptr;
     auto image = Image<pixelFormat>(data, width, height);
-    freeStbData(data);
+    stbi::freeStbData(data);
     return image;
 }
 
