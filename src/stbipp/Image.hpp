@@ -24,8 +24,6 @@ public:
     Image() = default;
 
     Image(int width, int height):
-        m_width(width),
-        m_height(height),
         m_format(pixelFormat)
     {
         resizeData(width, height);
@@ -56,17 +54,7 @@ public:
     template<ImageFormat otherPixelDataFormat> Image(const Image<otherPixelDataFormat>& other):
         Image(other.width(), other.height())
     {
-        std::size_t rowIndex{0};
-        for(auto& rowData : m_data)
-        {
-            std::size_t columnIndex{0};
-            for(auto& pixel : rowData)
-            {
-                m_data[rowIndex][columnIndex] = static_cast<PixelType>(other(columnIndex, rowIndex));
-                ++columnIndex;
-            }
-            ++rowIndex;
-        }
+        copyData(other);
     };
 
     Image(const Image& other):
@@ -117,8 +105,26 @@ public:
 
 private:
 
+    template<ImageFormat otherPixelDataFormat>
+    void copyData(const Image<otherPixelDataFormat>& other)
+    {
+        std::size_t rowIndex{0};
+        for(auto& rowData : m_data)
+        {
+            std::size_t columnIndex{0};
+            for(auto& pixel : rowData)
+            {
+                m_data[rowIndex][columnIndex] = static_cast<PixelType>(other(columnIndex, rowIndex));
+                ++columnIndex;
+            }
+            ++rowIndex;
+        }
+    }
+
     void resizeData(int width, int height)
     {
+        m_height = height;
+        m_width = width;
         m_data.resize(height);
         for(auto& row : m_data)
         {
