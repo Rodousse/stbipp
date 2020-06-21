@@ -85,6 +85,11 @@ public:
         return nbComponents;
     }
 
+    const DataType* data()const
+    {
+        return m_data.data();
+    }
+
     DataType* data()
     {
         return m_data.data();
@@ -158,8 +163,9 @@ private:
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = static_cast<DataType>((static_cast<float>(other[index]) /
-                                                   std::numeric_limits<ODataType>::max()) * std::numeric_limits<DataType>::max());
+            m_data[index] = static_cast<DataType>((static_cast<float>(other[index]) *
+                                                   std::numeric_limits<DataType>::max()) /
+                                                  std::numeric_limits<ODataType>::max());
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
