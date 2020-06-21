@@ -103,6 +103,20 @@ public:
         return m_data[row][column];
     }
 
+    template<ImageFormat otherPixelDataFormat>
+    Image& operator=(const Image<otherPixelDataFormat>& other)
+    {
+        resizeData(other.width(), other.height());
+        copyData(other);
+        return *this;
+    }
+
+    template<ImageFormat newPixelDataFormat>
+    Image castTo()
+    {
+        return Image<newPixelDataFormat>(*this);
+    }
+
 private:
 
     template<ImageFormat otherPixelDataFormat>
