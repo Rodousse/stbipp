@@ -9,6 +9,8 @@
 #include <string>
 namespace {
 
+
+
 constexpr int deduceSTBIType(const stbipp::ImageFormat& format)
 {
     using stbipp::ImageFormat;
@@ -40,14 +42,9 @@ constexpr int deduceSTBIType(const stbipp::ImageFormat& format)
                                         "] : Can't deduce STB Type from value ImageFormat ");
     }
 
-    return -1;
-
-}
 }
 
-namespace stbipp {
 
-namespace stbi {
 
 unsigned char* loadUCharImage(const std::string& path, int& width, int& height,
                               const stbipp::ImageFormat& format)
@@ -79,6 +76,41 @@ void freeStbData(void* data)
         stbi_image_free(data);
     }
 }
+
+}
+
+namespace stbipp {
+
+Image loadImage(const std::string& path, const ImageFormat pixelFormat, bool& success)
+{
+    int width{};
+    int height{};
+    void* data{nullptr};
+    success = false;
+    if(isFormat8Bits(pixelFormat))
+    {
+        data = loadUCharImage(path, width, height, pixelFormat);
+    }
+    else if(isFormat16Bits(pixelFormat))
+    {
+        data = loadUShortImage(path, width, height, pixelFormat);
+    }
+    else if(isFormat32Bits(pixelFormat))
+    {
+        data = loadFloatImage(path, width, height, pixelFormat);
+    }
+    success = data != nullptr;
+    if(success)
+    {
+        Image image(data, static_cast<unsigned int>(width), static_cast<unsigned int>(height),
+                    pixelFormat);
+        freeStbData(data);
+        return image;
+    }
+    else
+    {
+        return Image();
+    }
 
 }
 

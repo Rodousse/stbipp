@@ -1,5 +1,7 @@
 #pragma once
 
+#include "StbippSymbols.h"
+
 
 namespace stbipp {
 
@@ -24,5 +26,15 @@ enum class ImageFormat
 
     UNDEFINED = -1
 };
+
+
+
+STBIPP_API bool isFormat8Bits(const ImageFormat& format);
+
+STBIPP_API bool isFormat16Bits(const ImageFormat& format);
+
+STBIPP_API bool isFormat32Bits(const ImageFormat& format);
+
+STBIPP_API int formatChannelCount(const ImageFormat& format);
 
 }

@@ -7,7 +7,7 @@
 namespace stbipp {
 
 
-template<class DataType, int nbComponents, typename = typename std::enable_if<is_color_format_supported<DataType, nbComponents>>::type>
+template<class DataType, unsigned int nbComponents, typename = typename std::enable_if<is_color_format_supported<DataType, nbComponents>>::type>
 class Color
 {
 public:
@@ -80,7 +80,7 @@ public:
         return m_data[3];
     }
 
-    int size()const
+    unsigned int size()const
     {
         return nbComponents;
     }
@@ -95,31 +95,33 @@ public:
         return m_data.data();
     }
 
-    DataType operator[](int index)const
+    DataType operator[](unsigned int index)const
     {
         return m_data[index];
     }
 
-    DataType& operator[](int index)
+    DataType& operator[](unsigned int index)
     {
         return m_data[index];
     }
 
 private:
-    template<typename ODataType, int oDataSize>
-    void copy(const Color<DataType, oDataSize>& other,
+    template<typename ODataType, unsigned int oDataSize>
+    void copy(const Color<ODataType, oDataSize>& other,
               typename std::enable_if <std::is_same<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
-        std::copy_n(other.m_data.begin(), minSize, m_data.begin());
+        for(std::size_t index = 0; index < minSize; ++index)
+        {
+            m_data[index] =  other[index];
+        }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
             m_data[index] = 0.0;
         }
-        return *this;
     }
 
-    template < class ODataType, int oDataSize>
+    template < class ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
               typename std::enable_if < std::is_same<DataType, float>::value
               && !std::is_same<ODataType, float>::value
@@ -137,7 +139,7 @@ private:
     }
 
 
-    template < class ODataType, int oDataSize>
+    template < class ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
               typename std::enable_if < std::is_same<ODataType, float>::value
               && !std::is_same<DataType, float>::value
@@ -154,7 +156,7 @@ private:
         }
     }
 
-    template < class ODataType, int oDataSize>
+    template < class ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
               typename std::enable_if < !(std::is_same<ODataType, float>::value
                                           || std::is_same<DataType, float>::value)
@@ -175,19 +177,19 @@ private:
 
 public:
 
-    template <class ODataType, int oDataSize>
+    template <class ODataType, unsigned int oDataSize>
     Color& operator=(const Color<ODataType, oDataSize>& other)
     {
         copy(other);
         return *this;
     }
 
-    template <int oDataSize> Color(const Color<DataType, oDataSize>& other)
+    template <unsigned int oDataSize> Color(const Color<DataType, oDataSize>& other)
     {
         copy<DataType, oDataSize>(other);
     }
 
-    template <class ODataType, int oDataSize> Color(const Color<ODataType, oDataSize>& other)
+    template <class ODataType, unsigned int oDataSize> Color(const Color<ODataType, oDataSize>& other)
     {
         copy<ODataType, oDataSize>(other);
     }
@@ -195,7 +197,7 @@ public:
 
 
 private:
-    std::array<DataType, nbComponents> m_data;
+    std::array<DataType, nbComponents> m_data{};
 };
 
 using Colorf =  Color<float, 1>;

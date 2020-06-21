@@ -42,6 +42,7 @@ message(STATUS ${stb_content_SOURCE_DIR})
 set(STBIPP_SOURCES
     src/Image.cpp
     src/ImageExporter.cpp
+    src/ImageFormat.cpp
     src/ImageImporter.cpp)
 
 set(STBIPP_HEADERS

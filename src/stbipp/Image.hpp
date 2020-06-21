@@ -3,7 +3,6 @@
 #include "StbippSymbols.h"
 
 #include "stbipp/Color.hpp"
-#include "stbipp/TypeTraits.hpp"
 
 #include <vector>
 #include <memory>
@@ -12,153 +11,69 @@
 namespace stbipp {
 
 
-
-template <ImageFormat pixelFormat = ImageFormat::RGBA8>
-class Image
+class STBIPP_API Image
 {
 public:
-    using PixelDataType = PixelTypeTrait_t<pixelFormat>;
-    using PixelType = Color<PixelTypeTrait_t<pixelFormat>, PixelTypeTrait_s<pixelFormat>>;
+    using Color = Color4f;
 
+    explicit Image() = default;
 
-    Image() = default;
+    Image(unsigned int width, unsigned int height);
 
-    Image(int width, int height):
-        m_format(pixelFormat)
-    {
-        resizeData(width, height);
-    }
+    Image(void* data, unsigned int width, unsigned int height, ImageFormat pixelFormat);
 
+    Image(const Image& other);
 
-    Image(PixelDataType* data, int width, int height):
-        Image(width, height)
-    {
-        std::size_t rowIndex{0};
-        for(auto& rowData : m_data)
-        {
-            std::size_t columnIndex{0};
-            for(auto& pixel : rowData)
-            {
-                PixelType color{};
-                for(std::size_t colorComponent = 0; colorComponent < color.size(); ++colorComponent)
-                {
-                    color[colorComponent] = *(data + width * rowIndex + columnIndex + colorComponent);
-                }
-                m_data[rowIndex][columnIndex] = color;
-                ++columnIndex;
-            }
-            ++rowIndex;
-        }
-    }
-
-    template<ImageFormat otherPixelDataFormat> Image(const Image<otherPixelDataFormat>& other):
-        Image(other.width(), other.height())
-    {
-        copyData(other);
-    };
-
-    Image(const Image& other):
-        Image(other.width, other.height),
-        m_data(other.m_data)
-    {
-    }
-
-    Image(Image&& other):
-        m_width(other.width()),
-        m_height(other.height()),
-        m_format(other.format())
-    {
-        std::swap(m_data, other.m_data);
-    }
+    Image(Image&& other);
 
     ~Image() = default;
 
-    const PixelDataType* data() const
+    const Color* data() const;
+
+    template<class ColorType>
+    std::vector<ColorType> castData() const
     {
-        return m_data[0][0].data();
+        std::size_t size = m_width * m_height;
+        std::vector<ColorType> castedValue(size);
+        for(std::size_t index = 0; index < size; ++index)
+        {
+            castedValue[index] = m_data[index];
+        }
+        return castedValue;
     }
 
-    const ImageFormat& format() const
-    {
-        return m_format;
-    }
+    unsigned int  height() const;
 
-    int height() const
-    {
-        return m_height;
-    }
+    unsigned int  width() const;
 
-    int width() const
-    {
-        return m_width;
-    }
+    Color operator()(unsigned int column, unsigned int row) const;
 
-    PixelType operator()(std::size_t column, std::size_t row) const
-    {
-        return m_data[row][column];
-    }
+    Color& operator()(unsigned int column, unsigned int row);
 
-    PixelType& operator()(std::size_t column, std::size_t row)
-    {
-        return m_data[row][column];
-    }
+    Image& operator=(const Image& other);
 
-    template<ImageFormat otherPixelDataFormat>
-    Image& operator=(const Image<otherPixelDataFormat>& other)
-    {
-        resizeData(other.width(), other.height());
-        copyData(other);
-        return *this;
-    }
 
-    template<ImageFormat newPixelDataFormat>
-    Image castTo()
-    {
-        return Image<newPixelDataFormat>(*this);
-    }
 
 private:
 
-    template<ImageFormat otherPixelDataFormat>
-    void copyData(const Image<otherPixelDataFormat>& other)
-    {
-        std::size_t rowIndex{0};
-        for(auto& rowData : m_data)
-        {
-            std::size_t columnIndex{0};
-            for(auto& pixel : rowData)
-            {
-                m_data[rowIndex][columnIndex] = static_cast<PixelType>(other(columnIndex, rowIndex));
-                ++columnIndex;
-            }
-            ++rowIndex;
-        }
-    }
+    void copyData(const Image& other);
 
-    void resizeData(int width, int height)
-    {
-        m_height = height;
-        m_width = width;
-        m_data.resize(height);
-        for(auto& row : m_data)
-        {
-            row.resize(width);
-        }
-    }
+    void copyData(unsigned char* data, unsigned int width, unsigned int height,
+                  ImageFormat pixelFormat);
 
-    std::vector<std::vector<PixelType>> m_data;
-    int m_width;
-    int m_height;
-    ImageFormat m_format;
+    void copyData(unsigned short* data, unsigned int width, unsigned int height,
+                  ImageFormat pixelFormat);
+
+    void copyData(float* data, unsigned int width, unsigned int height, ImageFormat pixelFormat);
+
+    void resizeData(unsigned int width, unsigned int height);
+
+    std::vector<Color> m_data;
+    unsigned int m_width;
+    unsigned int m_height;
 
 };
 
-
-STBIPP_API bool isFormat8Bits(const ImageFormat& format);
-
-STBIPP_API bool isFormat16Bits(const ImageFormat& format);
-
-STBIPP_API bool isFormat32Bits(const ImageFormat& format);
 
 
 }
