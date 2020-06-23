@@ -126,8 +126,8 @@ private:
 
     template < class ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
-              typename std::enable_if < std::is_same<DataType, float>::value
-              && !std::is_same<ODataType, float>::value
+              typename std::enable_if < std::is_floating_point<DataType>::value
+              && !std::is_floating_point<ODataType>::value
               && !std::is_same<DataType, ODataType>::value >::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
@@ -144,8 +144,8 @@ private:
 
     template < class ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
-              typename std::enable_if < std::is_same<ODataType, float>::value
-              && !std::is_same<DataType, float>::value
+              typename std::enable_if < std::is_floating_point<ODataType>::value
+              && !std::is_floating_point<DataType>::value
               && !std::is_same<DataType, ODataType>::value >::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
@@ -161,8 +161,8 @@ private:
 
     template < class ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
-              typename std::enable_if < !(std::is_same<ODataType, float>::value
-                                          || std::is_same<DataType, float>::value)
+              typename std::enable_if < !(std::is_floating_point<ODataType>::value
+                                          || std::is_floating_point<DataType>::value)
               && !std::is_same<DataType, ODataType>::value >::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
