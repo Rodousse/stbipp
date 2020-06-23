@@ -240,6 +240,93 @@ public:
     }
 
 
+    template <class ODataType, unsigned int oDataSize>
+    Color& operator+=(const Color<ODataType, oDataSize>& other)
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        for(auto comp = 0; comp < nbComponents; ++comp)
+        {
+            m_data[comp] += other[comp] ;
+        }
+        return *this;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color operator+(const Color<ODataType, oDataSize>& other) const
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        Color temp{*this};
+        return temp += other;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color& operator-=(const Color<ODataType, oDataSize>& other)
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        for(auto comp = 0; comp < nbComponents; ++comp)
+        {
+            m_data[comp] -= other[comp] ;
+        }
+        return *this;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color operator-(const Color<ODataType, oDataSize>& other) const
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        Color temp{*this};
+        return temp -= other;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color operator-() const
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        Color temp{};
+        return temp -= *this;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color& operator*=(const Color<ODataType, oDataSize>& other)
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        for(auto comp = 0; comp < nbComponents; ++comp)
+        {
+            m_data[comp] *= other[comp] ;
+        }
+        return *this;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color operator*(const Color<ODataType, oDataSize>& other) const
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        Color temp{*this};
+        return temp *= other;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color& operator/=(const Color<ODataType, oDataSize>& other)
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        for(auto comp = 0; comp < nbComponents; ++comp)
+        {
+            m_data[comp] /= other[comp] ;
+        }
+        return *this;
+    }
+
+    template <class ODataType, unsigned int oDataSize>
+    Color operator/(const Color<ODataType, oDataSize>& other) const
+    {
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value, "Both colors must be of the same size and type");
+        Color temp{*this};
+        return temp /= other;
+    }
+
+
+
+
 
 private:
     std::array<DataType, nbComponents> m_data{};
