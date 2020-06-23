@@ -23,7 +23,10 @@ class Color
 
 public:
 
-    Color() = default;
+    Color()
+    {
+        std::fill(m_data.begin(), m_data.end(), DataType(0));
+    };
 
     template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     Color(DataType r) = delete;
