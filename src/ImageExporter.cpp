@@ -5,6 +5,7 @@
 #include <stb_image_write.h>
 
 #include <functional>
+#include <algorithm>
 #include <unordered_set>
 
 
