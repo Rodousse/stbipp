@@ -137,21 +137,4 @@ struct PixelTypeTrait<ImageFormat::RGBA32>
     static constexpr ImageFormat format32Bits = ImageFormat::RGBA32;
 };
 
-template <ImageFormat pixelFormat>
-using PixelTypeTrait_t = typename PixelTypeTrait<pixelFormat>::type;
-template <ImageFormat pixelFormat>
-static constexpr int PixelTypeTrait_s = PixelTypeTrait<pixelFormat>::size;
-
-template <class DataType, int nbComponent>
-constexpr bool is_color_format_supported = (std::is_same<DataType, unsigned short>::value
-        || std::is_same<DataType, unsigned char>::value
-        || std::is_same<DataType, float>::value) && (nbComponent > 0) && (nbComponent < 5) ;
-
-template<ImageFormat pixelFormat>
-constexpr ImageFormat PixelTypeTraits_8Bits = PixelTypeTrait<pixelFormat>::format8Bits;
-template<ImageFormat pixelFormat>
-constexpr ImageFormat PixelTypeTraits_16Bits = PixelTypeTrait<pixelFormat>::format16Bits;
-template<ImageFormat pixelFormat>
-constexpr ImageFormat PixelTypeTraits_32Bits = PixelTypeTrait<pixelFormat>::format32Bits;
-
 }
