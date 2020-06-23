@@ -107,10 +107,7 @@ Image loadImage(const std::string& path, const ImageFormat pixelFormat, bool& su
         freeStbData(data);
         return image;
     }
-    else
-    {
-        return Image();
-    }
+    return Image();
 
 }
 
