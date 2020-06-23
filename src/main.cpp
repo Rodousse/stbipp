@@ -19,26 +19,19 @@ int main()
     {
         for(auto j = 0; j < save.width(); ++j)
         {
+            using namespace stbipp;
             // https://www.shadertoy.com/view/XtVyRz
-            stbipp::Color2f uv = {static_cast<float>(j) / save.width() * 3.5f - 1.8f, static_cast<float>(i) / save.height() * 2.0f - 1.0f};
-            //uv = (uv * vec2(3.5, 2.0)) - vec2(1.8, 1.0);
-            stbipp::Color2f z;
-            stbipp::Color2f c;
-            float xtemp;
 
-            z.r() = uv.r();
-            z.g() =  uv.g();
+            Color2f uv = Color2f(j, i) / Color2f(save.width(), save.height());
+            uv = (uv * Color2f(3.5,2.0)) - Color2f(1.8,1.0);
+            Color2f z = uv;
+            Color2f c(-0.835, -0.2321);
 
-            c.r() = -0.835;
-            c.g() = -0.2321;
-
-
-            //c =  stbipp::Color2f(0.7885 * std::cos(time * speed), 0.7885 * std::sin(time * speed));
             int iteration = 0;
 
             while((z.r() * z.r() + z.g() * z.g() < 2.0f)  &&  iteration < 1000)
             {
-                xtemp = z.r() * z.r() - z.g() * z.g();
+                float xtemp = z.r() * z.r() - z.g() * z.g();
                 z.g() = 2.0f * z.r() * z.g()  + c.g() ;
                 z.r() = xtemp + c.r();
 
@@ -56,7 +49,7 @@ int main()
             }
         }
     }
-    if(!stbipp::saveImage("D:/Bureau/test.png", save, stbipp::ImageSaveFormat::LUM))
+    if(!stbipp::saveImage("test.png", save, stbipp::ImageSaveFormat::LUM))
     {
         return 1;
     }
