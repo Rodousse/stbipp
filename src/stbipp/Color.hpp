@@ -10,9 +10,12 @@
 namespace stbipp {
 
 
-template<class DataType, unsigned int nbComponents, typename = typename std::enable_if<is_color_format_supported<DataType, nbComponents>>::type>
+template<class DataType, unsigned int nbComponents>
 class Color
 {
+    static_assert (is_color_format_supported<DataType, nbComponents>, "Color template argument expect : float, unsigned short or unsigned char "
+                                                                      "\n Color template argument expect number of components < 5");
+
 public:
 
     Color() = default;
