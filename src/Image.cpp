@@ -104,13 +104,14 @@ void Image::copyData(unsigned char* data, int width, int height,
         for(int columnIndex = 0; columnIndex < width; ++columnIndex)
         {
             Color4uc color{};
-            for(unsigned int colorComponent = 0;
-                colorComponent < static_cast<unsigned int>(formatChannelCount(pixelFormat));
+            auto channels = formatChannelCount(pixelFormat);
+            for(int colorComponent = 0;
+                colorComponent < channels;
                 ++colorComponent)
             {
-                color[colorComponent] = *(data + width * rowIndex + columnIndex + colorComponent);
+                color[colorComponent] = *(data + ((width *channels* rowIndex) + columnIndex * channels + colorComponent));
             }
-            (*this)(rowIndex, columnIndex) = color;
+            (*this)(columnIndex, rowIndex) = color;
         }
     }
 }
@@ -123,13 +124,14 @@ void Image::copyData(unsigned short* data, int width, int height,
         for(int columnIndex = 0; columnIndex < width; ++columnIndex)
         {
             Color4us color{};
+            auto channels = formatChannelCount(pixelFormat);
             for(int colorComponent = 0;
-                colorComponent < formatChannelCount(pixelFormat);
+                colorComponent < channels;
                 ++colorComponent)
             {
-                color[colorComponent] = *(data + width * rowIndex + columnIndex + colorComponent);
+                color[colorComponent] = *(data + ((width *channels* rowIndex) + columnIndex * channels + colorComponent));
             }
-            (*this)(rowIndex, columnIndex) = color;
+            (*this)(columnIndex, rowIndex)  = color;
         }
     }
 }
@@ -141,13 +143,14 @@ void Image::copyData(float* data, int width, int height, ImageFormat pixelFormat
         for(int columnIndex = 0; columnIndex < width; ++columnIndex)
         {
             Color4f color{};
+            auto channels = formatChannelCount(pixelFormat);
             for(int colorComponent = 0;
-                colorComponent < formatChannelCount(pixelFormat);
+                colorComponent < channels;
                 ++colorComponent)
             {
-                color[colorComponent] = *(data + width * rowIndex + columnIndex + colorComponent);
+                color[colorComponent] = *(data + ((width *channels* rowIndex) + columnIndex * channels + colorComponent));
             }
-            (*this)(rowIndex, columnIndex) = color;
+            (*this)(columnIndex, rowIndex)  = color;
         }
     }
 }
