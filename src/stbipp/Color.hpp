@@ -20,67 +20,98 @@ public:
 
     Color() = default;
 
-    template<typename = typename std::enable_if<(nbComponents > 0)>::type > Color(DataType r):
+    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
+    Color(DataType r) = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr> Color(DataType r):
         m_data({r})
     {}
-    template<typename = typename std::enable_if<(nbComponents > 1)>::type > Color(DataType r,
+
+    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr> Color(DataType r,
+            DataType g) = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr> Color(DataType r,
             DataType g):
         m_data({r, g})
     {}
-    template<typename = typename std::enable_if<(nbComponents > 2)>::type > Color(DataType r,
+
+    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr> Color(DataType r,
+            DataType g,
+            DataType b) = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr> Color(DataType r,
             DataType g,
             DataType b):
         m_data({r, g, b})
     {}
-    template<typename = typename std::enable_if<(nbComponents > 3)>::type > Color(DataType r,
+
+    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr> Color(DataType r,
+            DataType g,
+            DataType b, DataType a) = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr> Color(DataType r,
             DataType g,
             DataType b, DataType a):
         m_data({r, g, b, a})
     {}
 
 
-    template<typename = typename std::enable_if<(nbComponents > 0)>::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
+    DataType r()const = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType r()const
     {
         return m_data[0];
     }
 
-    template<typename = typename std::enable_if<(nbComponents > 0) >::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
+    DataType & r() = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType & r()
     {
         return m_data[0];
     }
 
-    template<typename = typename std::enable_if<(nbComponents > 1)>::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
+    DataType g()const = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType g()const
     {
         return m_data[1];
     }
-    template<typename = typename std::enable_if<(nbComponents > 1)>::type >
+
+    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
+    DataType & g() = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType & g()
     {
         return m_data[1];
     }
 
-    template<typename = typename std::enable_if<(nbComponents > 2)>::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
+    DataType b()const = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType b()const
     {
         return m_data[2];
     }
 
-    template<typename = typename std::enable_if<(nbComponents > 2)>::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
+    DataType & b() = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType & b()
     {
         return m_data[2];
     }
 
-    template<typename = typename std::enable_if<(nbComponents > 3)>::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
+    DataType a()const = delete;
+
+    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType a()const
     {
         return m_data[3];
     }
 
-    template<typename = typename std::enable_if<(nbComponents > 3)>::type >
+    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
+    DataType & a() = delete;
+    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType & a()
     {
         return m_data[3];
