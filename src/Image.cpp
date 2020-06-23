@@ -62,11 +62,19 @@ int Image::width() const
 
 Image::Color Image::operator()(int column, int row) const
 {
+    if(column > m_width || column < 0 || row < 0 || row > m_height)
+    {
+        throw std::runtime_error("Trying to access out of range value");
+    }
     return m_data[row * m_width + column];
 }
 
 Image::Color& Image::operator()(int column, int row)
 {
+    if(column > m_width || column < 0 || row < 0 || row > m_height)
+    {
+        throw std::runtime_error("Trying to access out of range value");
+    }
     return m_data[row * m_width + column];
 }
 
