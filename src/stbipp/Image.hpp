@@ -18,9 +18,9 @@ public:
 
     explicit Image() = default;
 
-    Image(unsigned int width, unsigned int height);
+    Image(int width, int height);
 
-    Image(void* data, unsigned int width, unsigned int height, ImageFormat pixelFormat);
+    Image(void* data, int width, int height, ImageFormat pixelFormat);
 
     Image(const Image& other);
 
@@ -42,13 +42,13 @@ public:
         return castedValue;
     }
 
-    unsigned int  height() const;
+    int  height() const;
 
-    unsigned int  width() const;
+    int  width() const;
 
-    Color operator()(unsigned int column, unsigned int row) const;
+    Color operator()(int column, int row) const;
 
-    Color& operator()(unsigned int column, unsigned int row);
+    Color& operator()(int column, int row);
 
     Image& operator=(const Image& other);
 
@@ -58,19 +58,19 @@ private:
 
     void copyData(const Image& other);
 
-    void copyData(unsigned char* data, unsigned int width, unsigned int height,
+    void copyData(unsigned char* data, int width, int height,
                   ImageFormat pixelFormat);
 
-    void copyData(unsigned short* data, unsigned int width, unsigned int height,
+    void copyData(unsigned short* data, int width, int height,
                   ImageFormat pixelFormat);
 
-    void copyData(float* data, unsigned int width, unsigned int height, ImageFormat pixelFormat);
+    void copyData(float* data, int width, int height, ImageFormat pixelFormat);
 
-    void resizeData(unsigned int width, unsigned int height);
+    void resizeData(int width, int height);
 
     std::vector<Color> m_data;
-    unsigned int m_width;
-    unsigned int m_height;
+    int m_width;
+    int m_height;
 
 };
 

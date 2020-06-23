@@ -2,14 +2,16 @@
 
 #include "stbipp/TypeTraits.hpp"
 
+#include <exception>
+
 namespace stbipp {
 
-Image::Image(unsigned int width, unsigned int height)
+Image::Image(int width, int height)
 {
     resizeData(width, height);
 }
 
-Image::Image(void* data, unsigned int width, unsigned int height, ImageFormat pixelFormat):
+Image::Image(void* data, int width, int height, ImageFormat pixelFormat):
     Image(width, height)
 {
     if(isFormat8Bits(pixelFormat))
@@ -48,22 +50,22 @@ const Image::Color* Image::data() const
     return m_data.data();
 }
 
-unsigned int Image::height() const
+int Image::height() const
 {
     return m_height;
 }
 
-unsigned int Image::width() const
+int Image::width() const
 {
     return m_width;
 }
 
-Image::Color Image::operator()(unsigned int column, unsigned int row) const
+Image::Color Image::operator()(int column, int row) const
 {
     return m_data[row * m_width + column];
 }
 
-Image::Color& Image::operator()(unsigned int column, unsigned int row)
+Image::Color& Image::operator()(int column, int row)
 {
     return m_data[row * m_width + column];
 }
@@ -77,21 +79,21 @@ Image& Image::operator=(const Image& other)
 
 void Image::copyData(const Image& other)
 {
-    for(unsigned int rowIndex = 0; rowIndex < other.m_height; ++rowIndex)
+    for(int rowIndex = 0; rowIndex < other.m_height; ++rowIndex)
     {
-        for(unsigned int columnIndex = 0; columnIndex < other.m_width; ++columnIndex)
+        for(int columnIndex = 0; columnIndex < other.m_width; ++columnIndex)
         {
             (*this)(columnIndex, rowIndex) = static_cast<Color>(other(columnIndex, rowIndex));
         }
     }
 }
 
-void Image::copyData(unsigned char* data, unsigned int width, unsigned int height,
+void Image::copyData(unsigned char* data, int width, int height,
                      ImageFormat pixelFormat)
 {
-    for(unsigned int rowIndex = 0; rowIndex < height; ++rowIndex)
+    for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
-        for(unsigned int columnIndex = 0; columnIndex < width; ++columnIndex)
+        for(int columnIndex = 0; columnIndex < width; ++columnIndex)
         {
             Color4uc color{};
             for(unsigned int colorComponent = 0;
@@ -105,16 +107,16 @@ void Image::copyData(unsigned char* data, unsigned int width, unsigned int heigh
     }
 }
 
-void Image::copyData(unsigned short* data, unsigned int width, unsigned int height,
+void Image::copyData(unsigned short* data, int width, int height,
                      ImageFormat pixelFormat)
 {
-    for(unsigned int rowIndex = 0; rowIndex < height; ++rowIndex)
+    for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
-        for(unsigned int columnIndex = 0; columnIndex < width; ++columnIndex)
+        for(int columnIndex = 0; columnIndex < width; ++columnIndex)
         {
             Color4us color{};
-            for(unsigned int colorComponent = 0;
-                colorComponent < static_cast<unsigned int>(formatChannelCount(pixelFormat));
+            for(int colorComponent = 0;
+                colorComponent < formatChannelCount(pixelFormat);
                 ++colorComponent)
             {
                 color[colorComponent] = *(data + width * rowIndex + columnIndex + colorComponent);
@@ -124,15 +126,15 @@ void Image::copyData(unsigned short* data, unsigned int width, unsigned int heig
     }
 }
 
-void Image::copyData(float* data, unsigned int width, unsigned int height, ImageFormat pixelFormat)
+void Image::copyData(float* data, int width, int height, ImageFormat pixelFormat)
 {
-    for(unsigned int rowIndex = 0; rowIndex < height; ++rowIndex)
+    for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
-        for(unsigned int columnIndex = 0; columnIndex < width; ++columnIndex)
+        for(int columnIndex = 0; columnIndex < width; ++columnIndex)
         {
             Color4f color{};
-            for(unsigned int colorComponent = 0;
-                colorComponent < static_cast<unsigned int>(formatChannelCount(pixelFormat));
+            for(int colorComponent = 0;
+                colorComponent < formatChannelCount(pixelFormat);
                 ++colorComponent)
             {
                 color[colorComponent] = *(data + width * rowIndex + columnIndex + colorComponent);
@@ -142,8 +144,12 @@ void Image::copyData(float* data, unsigned int width, unsigned int height, Image
     }
 }
 
-void Image::resizeData(unsigned int width, unsigned int height)
+void Image::resizeData(int width, int height)
 {
+    if(width < 0 || height < 0)
+    {
+        throw std::invalid_argument("New image dimensions must be positive integers!");
+    }
     m_height = height;
     m_width = width;
     m_data.resize(height * width);
