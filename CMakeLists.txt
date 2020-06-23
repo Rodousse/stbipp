@@ -135,8 +135,9 @@ install(
 
 if(${STBIPP_BUILD_EXAMPLE})
     set(STBIPP_EX_SOURCES
-        src/main.cpp)
+        example/main.cpp)
     add_executable(stbipp_example ${STBIPP_EX_SOURCES})
     target_link_libraries(stbipp_example PRIVATE ${PROJECT_NAME})
+    target_compile_definitions(stbipp_example PUBLIC -DRESOURCE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/example")
 endif()
 

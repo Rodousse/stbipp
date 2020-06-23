@@ -5,15 +5,14 @@
 int main()
 {
     bool loadSuccessful{};
-    auto image = stbipp::loadImage("D:/Bureau/easy.png", stbipp::ImageFormat::RGB8, loadSuccessful);
+    auto image = stbipp::loadImage(std::string(RESOURCE_PATH) + "/example.jpeg", stbipp::ImageFormat::RGB8, loadSuccessful);
     if(!loadSuccessful)
     {
         return 1;
     }
 
-    image(0, 0) = stbipp::Color3uc{255, 127, 0};
 
-    stbipp::Image save(1000, 1000);
+    stbipp::Image save(image.width(), image.height());
 
     for(auto i = 0; i < save.height(); ++i)
     {
@@ -45,11 +44,11 @@ int main()
             else
             {
                 auto color = 10.0f * float(iteration) / 1000;
-                save(j, i) = {color, color, color};
+                save(j, i) = Color4f{color, color, color} + image(j,i);
             }
         }
     }
-    if(!stbipp::saveImage("test.png", save, stbipp::ImageSaveFormat::LUM))
+    if(!stbipp::saveImage("test.png", save, stbipp::ImageSaveFormat::RGB))
     {
         return 1;
     }
