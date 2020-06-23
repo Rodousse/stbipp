@@ -11,7 +11,7 @@ namespace {
 
 
 
-constexpr int deduceSTBIType(const stbipp::ImageFormat& format)
+int deduceSTBIType(const stbipp::ImageFormat& format)
 {
     using stbipp::ImageFormat;
 
