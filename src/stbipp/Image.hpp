@@ -1,19 +1,16 @@
 #pragma once
 
 #include "StbippSymbols.h"
-
 #include "stbipp/Color.hpp"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
-
-namespace stbipp {
-
-
+namespace stbipp
+{
 class STBIPP_API Image
 {
-public:
+  public:
     using Color = Color4f;
 
     explicit Image() = default;
@@ -42,9 +39,9 @@ public:
         return castedValue;
     }
 
-    int  height() const;
+    int height() const;
 
-    int  width() const;
+    int width() const;
 
     Color operator()(int column, int row) const;
 
@@ -52,16 +49,17 @@ public:
 
     Image& operator=(const Image& other);
 
-
-
-private:
-
+  private:
     void copyData(const Image& other);
 
-    void copyData(unsigned char* data, int width, int height,
+    void copyData(unsigned char* data,
+                  int width,
+                  int height,
                   ImageFormat pixelFormat);
 
-    void copyData(unsigned short* data, int width, int height,
+    void copyData(unsigned short* data,
+                  int width,
+                  int height,
                   ImageFormat pixelFormat);
 
     void copyData(float* data, int width, int height, ImageFormat pixelFormat);
@@ -71,12 +69,6 @@ private:
     std::vector<Color> m_data;
     int m_width;
     int m_height;
-
 };
 
-
-
-}
-
-
-
+} // namespace stbipp

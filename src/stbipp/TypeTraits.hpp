@@ -4,10 +4,9 @@
 
 #include <type_traits>
 
-namespace stbipp {
-
-
-template <ImageFormat pixelFormat>
+namespace stbipp
+{
+template<ImageFormat pixelFormat>
 struct PixelTypeTrait
 {
     typedef void type;
@@ -17,7 +16,7 @@ struct PixelTypeTrait
     static constexpr ImageFormat format32Bits = ImageFormat::RGB32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::LUM8>
 {
     typedef unsigned char type;
@@ -27,7 +26,7 @@ struct PixelTypeTrait<ImageFormat::LUM8>
     static constexpr ImageFormat format32Bits = ImageFormat::LUM32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::LUMA8>
 {
     typedef unsigned char type;
@@ -37,7 +36,7 @@ struct PixelTypeTrait<ImageFormat::LUMA8>
     static constexpr ImageFormat format32Bits = ImageFormat::LUMA32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::RGB8>
 {
     typedef unsigned char type;
@@ -47,7 +46,7 @@ struct PixelTypeTrait<ImageFormat::RGB8>
     static constexpr ImageFormat format32Bits = ImageFormat::RGB32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::RGBA8>
 {
     typedef unsigned char type;
@@ -57,7 +56,7 @@ struct PixelTypeTrait<ImageFormat::RGBA8>
     static constexpr ImageFormat format32Bits = ImageFormat::RGBA32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::LUM16>
 {
     typedef unsigned short type;
@@ -67,7 +66,7 @@ struct PixelTypeTrait<ImageFormat::LUM16>
     static constexpr ImageFormat format32Bits = ImageFormat::LUM32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::LUMA16>
 {
     typedef unsigned short type;
@@ -77,7 +76,7 @@ struct PixelTypeTrait<ImageFormat::LUMA16>
     static constexpr ImageFormat format32Bits = ImageFormat::LUMA32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::RGB16>
 {
     typedef unsigned short type;
@@ -87,7 +86,7 @@ struct PixelTypeTrait<ImageFormat::RGB16>
     static constexpr ImageFormat format32Bits = ImageFormat::RGB32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::RGBA16>
 {
     typedef unsigned short type;
@@ -97,7 +96,7 @@ struct PixelTypeTrait<ImageFormat::RGBA16>
     static constexpr ImageFormat format32Bits = ImageFormat::RGBA32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::LUM32>
 {
     typedef float type;
@@ -107,7 +106,7 @@ struct PixelTypeTrait<ImageFormat::LUM32>
     static constexpr ImageFormat format32Bits = ImageFormat::LUM32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::LUMA32>
 {
     typedef float type;
@@ -117,7 +116,7 @@ struct PixelTypeTrait<ImageFormat::LUMA32>
     static constexpr ImageFormat format32Bits = ImageFormat::LUMA32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::RGB32>
 {
     typedef float type;
@@ -127,7 +126,7 @@ struct PixelTypeTrait<ImageFormat::RGB32>
     static constexpr ImageFormat format32Bits = ImageFormat::RGB32;
 };
 
-template <>
+template<>
 struct PixelTypeTrait<ImageFormat::RGBA32>
 {
     typedef float type;
@@ -137,4 +136,4 @@ struct PixelTypeTrait<ImageFormat::RGBA32>
     static constexpr ImageFormat format32Bits = ImageFormat::RGBA32;
 };
 
-}
+} // namespace stbipp

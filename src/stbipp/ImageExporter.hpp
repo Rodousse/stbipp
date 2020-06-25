@@ -4,9 +4,8 @@
 
 #include <string>
 
-
-namespace stbipp {
-
+namespace stbipp
+{
 enum class ImageSaveFormat
 {
     LUM,
@@ -15,12 +14,10 @@ enum class ImageSaveFormat
     RGBA
 };
 
-STBIPP_API bool saveImage(const std::string& path, const Image& image,
+STBIPP_API bool saveImage(const std::string& path,
+                          const Image& image,
                           const ImageSaveFormat pixelFormat);
-
 
 STBIPP_API int formatChannelCount(const ImageSaveFormat& format);
 
-}
-
-
+} // namespace stbipp
