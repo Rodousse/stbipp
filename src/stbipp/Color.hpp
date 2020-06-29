@@ -12,16 +12,21 @@ template<class DataType, unsigned int nbComponents>
 class Color
 {
   public:
-    Color()
-    {
-        std::fill(m_data.begin(), m_data.end(), DataType(0));
-    };
+    /**
+     * @brief Color default constructor
+     */
+    Color(): Color(static_cast<DataType>(0.0)){};
 
     template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    Color(DataType r) = delete;
+    explicit Color(DataType value) = delete;
+    /**
+     * @brief Color constructor
+     * @param[in] value Fill the color with specified value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
-    Color(DataType r): m_data({r})
+    explicit Color(DataType value)
     {
+        std::fill(m_data.begin(), m_data.end(), DataType(0));
     }
 
     template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
