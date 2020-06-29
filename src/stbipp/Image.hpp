@@ -65,6 +65,13 @@ class STBIPP_API Image
     const Color* data() const;
 
     /**
+     * @brief Resize the image with the given dimensions
+     * @param[in] width The new image width
+     * @param[in] height The new image height
+     */
+    void resize(int width, int height);
+
+    /**
      * @brief Cast data to another color type
      * @tparam ColorType The new color type (e.g : Color3uc, Colorus,...)
      * @return The pixel matrix casted

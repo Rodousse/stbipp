@@ -45,6 +45,25 @@ const Image::Color* Image::data() const
     return m_data.data();
 }
 
+void Image::resize(int width, int height)
+{
+    std::vector<Color> newData(static_cast<std::size_t>(width) * static_cast<std::size_t>(height));
+    const auto minWidth = std::min(width, m_width);
+    const auto minHeight = std::min(height, m_height);
+    for(int rowIndex = 0; rowIndex < minHeight; ++rowIndex)
+    {
+        for(int columnIndex = 0; columnIndex < minWidth; ++columnIndex)
+        {
+            std::size_t index = static_cast<std::size_t>(rowIndex) * static_cast<std::size_t>(width) +
+                                static_cast<std::size_t>(columnIndex);
+            newData[index] = (*this)(columnIndex, rowIndex);
+        }
+    }
+    std::swap(m_data, newData);
+    m_width = width;
+    m_height = height;
+}
+
 int Image::height() const
 {
     return m_height;
