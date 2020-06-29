@@ -11,8 +11,7 @@ Image::Image(int width, int height)
     resizeData(width, height);
 }
 
-Image::Image(void* data, int width, int height, ImageFormat pixelFormat):
-  Image(width, height)
+Image::Image(void* data, int width, int height, ImageFormat pixelFormat): Image(width, height)
 {
     if(isFormat8Bits(pixelFormat))
     {
@@ -87,16 +86,12 @@ void Image::copyData(const Image& other)
     {
         for(int columnIndex = 0; columnIndex < other.m_width; ++columnIndex)
         {
-            (*this)(columnIndex, rowIndex) =
-              static_cast<Color>(other(columnIndex, rowIndex));
+            (*this)(columnIndex, rowIndex) = static_cast<Color>(other(columnIndex, rowIndex));
         }
     }
 }
 
-void Image::copyData(unsigned char* data,
-                     int width,
-                     int height,
-                     ImageFormat pixelFormat)
+void Image::copyData(unsigned char* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -104,22 +99,17 @@ void Image::copyData(unsigned char* data,
         {
             Color4uc color{};
             auto channels = formatChannelCount(pixelFormat);
-            for(int colorComponent = 0; colorComponent < channels;
-                ++colorComponent)
+            for(int colorComponent = 0; colorComponent < channels; ++colorComponent)
             {
                 color[colorComponent] =
-                  *(data + ((width * channels * rowIndex) +
-                            columnIndex * channels + colorComponent));
+                  *(data + ((width * channels * rowIndex) + columnIndex * channels + colorComponent));
             }
             (*this)(columnIndex, rowIndex) = color;
         }
     }
 }
 
-void Image::copyData(unsigned short* data,
-                     int width,
-                     int height,
-                     ImageFormat pixelFormat)
+void Image::copyData(unsigned short* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -127,22 +117,17 @@ void Image::copyData(unsigned short* data,
         {
             Color4us color{};
             auto channels = formatChannelCount(pixelFormat);
-            for(int colorComponent = 0; colorComponent < channels;
-                ++colorComponent)
+            for(int colorComponent = 0; colorComponent < channels; ++colorComponent)
             {
                 color[colorComponent] =
-                  *(data + ((width * channels * rowIndex) +
-                            columnIndex * channels + colorComponent));
+                  *(data + ((width * channels * rowIndex) + columnIndex * channels + colorComponent));
             }
             (*this)(columnIndex, rowIndex) = color;
         }
     }
 }
 
-void Image::copyData(float* data,
-                     int width,
-                     int height,
-                     ImageFormat pixelFormat)
+void Image::copyData(float* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -150,12 +135,10 @@ void Image::copyData(float* data,
         {
             Color4f color{};
             auto channels = formatChannelCount(pixelFormat);
-            for(int colorComponent = 0; colorComponent < channels;
-                ++colorComponent)
+            for(int colorComponent = 0; colorComponent < channels; ++colorComponent)
             {
                 color[colorComponent] =
-                  *(data + ((width * channels * rowIndex) +
-                            columnIndex * channels + colorComponent));
+                  *(data + ((width * channels * rowIndex) + columnIndex * channels + colorComponent));
             }
             (*this)(columnIndex, rowIndex) = color;
         }
@@ -166,8 +149,7 @@ void Image::resizeData(int width, int height)
 {
     if(width < 0 || height < 0)
     {
-        throw std::invalid_argument(
-          "New image dimensions must be positive integers!");
+        throw std::invalid_argument("New image dimensions must be positive integers!");
     }
     m_height = height;
     m_width = width;

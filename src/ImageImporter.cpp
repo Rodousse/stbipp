@@ -31,40 +31,27 @@ int deduceSTBIType(const stbipp::ImageFormat& format)
         case ImageFormat::RGBA32: return STBI_rgb_alpha;
 
         default:
-            throw std::invalid_argument(
-              "[" + std::string(__func__) +
-              "] : Can't deduce STB Type from value ImageFormat ");
+            throw std::invalid_argument("[" + std::string(__func__) +
+                                        "] : Can't deduce STB Type from value ImageFormat ");
     }
 }
 
-unsigned char* loadUCharImage(const std::string& path,
-                              int& width,
-                              int& height,
-                              const stbipp::ImageFormat& format)
+unsigned char* loadUCharImage(const std::string& path, int& width, int& height, const stbipp::ImageFormat& format)
 {
     int channels;
-    return stbi_load(
-      path.data(), &width, &height, &channels, deduceSTBIType(format));
+    return stbi_load(path.data(), &width, &height, &channels, deduceSTBIType(format));
 }
 
-unsigned short* loadUShortImage(const std::string& path,
-                                int& width,
-                                int& height,
-                                const stbipp::ImageFormat& format)
+unsigned short* loadUShortImage(const std::string& path, int& width, int& height, const stbipp::ImageFormat& format)
 {
     int channels;
-    return stbi_load_16(
-      path.data(), &width, &height, &channels, deduceSTBIType(format));
+    return stbi_load_16(path.data(), &width, &height, &channels, deduceSTBIType(format));
 }
 
-float* loadFloatImage(const std::string& path,
-                      int& width,
-                      int& height,
-                      const stbipp::ImageFormat& format)
+float* loadFloatImage(const std::string& path, int& width, int& height, const stbipp::ImageFormat& format)
 {
     int channels;
-    return stbi_loadf(
-      path.data(), &width, &height, &channels, deduceSTBIType(format));
+    return stbi_loadf(path.data(), &width, &height, &channels, deduceSTBIType(format));
 }
 
 void freeStbData(void* data)
@@ -79,9 +66,7 @@ void freeStbData(void* data)
 
 namespace stbipp
 {
-Image loadImage(const std::string& path,
-                const ImageFormat pixelFormat,
-                bool& success)
+Image loadImage(const std::string& path, const ImageFormat pixelFormat, bool& success)
 {
     int width{};
     int height{};
@@ -102,10 +87,7 @@ Image loadImage(const std::string& path,
     success = data != nullptr;
     if(success)
     {
-        Image image(data,
-                    static_cast<unsigned int>(width),
-                    static_cast<unsigned int>(height),
-                    pixelFormat);
+        Image image(data, static_cast<unsigned int>(width), static_cast<unsigned int>(height), pixelFormat);
         freeStbData(data);
         return image;
     }

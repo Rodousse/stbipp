@@ -11,13 +11,11 @@ namespace stbipp
 template<class DataType, unsigned int nbComponents>
 class Color
 {
-    static_assert(
-      (std::is_same<DataType, unsigned short>::value ||
-       std::is_same<DataType, unsigned char>::value ||
-       std::is_same<DataType, float>::value) &&
-        (nbComponents > 0) && (nbComponents < 5),
-      "Color template argument expect : float, unsigned short or unsigned char "
-      "\n Color template argument expect number of components < 5");
+    static_assert((std::is_same<DataType, unsigned short>::value || std::is_same<DataType, unsigned char>::value ||
+                   std::is_same<DataType, float>::value) &&
+                    (nbComponents > 0) && (nbComponents < 5),
+                  "Color template argument expect : float, unsigned short or unsigned char "
+                  "\n Color template argument expect number of components < 5");
 
   public:
     Color()
@@ -25,118 +23,94 @@ class Color
         std::fill(m_data.begin(), m_data.end(), DataType(0));
     };
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 0)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     Color(DataType r) = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 0)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     Color(DataType r): m_data({r})
     {
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 1)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
     Color(DataType r, DataType g) = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 1)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     Color(DataType r, DataType g): m_data({r, g})
     {
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 2)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
     Color(DataType r, DataType g, DataType b) = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 2)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     Color(DataType r, DataType g, DataType b): m_data({r, g, b})
     {
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 3)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
     Color(DataType r, DataType g, DataType b, DataType a) = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 3)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
     {
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 0)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     DataType r() const = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 0)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType r() const
     {
         return m_data[0];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 0)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     DataType& r() = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 0)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType& r()
     {
         return m_data[0];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 1)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
     DataType g() const = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 1)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType g() const
     {
         return m_data[1];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 1)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
     DataType& g() = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 1)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType& g()
     {
         return m_data[1];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 2)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
     DataType b() const = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 2)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType b() const
     {
         return m_data[2];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 2)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
     DataType& b() = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 2)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType& b()
     {
         return m_data[2];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 3)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
     DataType a() const = delete;
 
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 3)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType a() const
     {
         return m_data[3];
     }
 
-    template<int I = nbComponents,
-             typename std::enable_if<!(I > 3)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
     DataType& a() = delete;
-    template<int I = nbComponents,
-             typename std::enable_if<(I > 3)>::type* = nullptr>
+    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType& a()
     {
         return m_data[3];
@@ -169,10 +143,8 @@ class Color
 
   private:
     template<typename ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<std::is_same<DataType, ODataType>::value>::type* =
-        nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<std::is_same<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
@@ -186,17 +158,15 @@ class Color
     }
 
     template<class ODataType, unsigned int oDataSize>
-    void copy(const Color<ODataType, oDataSize>& other,
-              typename std::enable_if<
-                std::is_floating_point<DataType>::value &&
-                !std::is_floating_point<ODataType>::value &&
-                !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(
+      const Color<ODataType, oDataSize>& other,
+      typename std::enable_if<std::is_floating_point<DataType>::value && !std::is_floating_point<ODataType>::value &&
+                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = static_cast<float>(other[index]) /
-                            std::numeric_limits<ODataType>::max();
+            m_data[index] = static_cast<float>(other[index]) / std::numeric_limits<ODataType>::max();
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
@@ -205,17 +175,15 @@ class Color
     }
 
     template<class ODataType, unsigned int oDataSize>
-    void copy(const Color<ODataType, oDataSize>& other,
-              typename std::enable_if<
-                std::is_floating_point<ODataType>::value &&
-                !std::is_floating_point<DataType>::value &&
-                !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(
+      const Color<ODataType, oDataSize>& other,
+      typename std::enable_if<std::is_floating_point<ODataType>::value && !std::is_floating_point<DataType>::value &&
+                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = static_cast<DataType>(
-              std::numeric_limits<DataType>::max() * other[index]);
+            m_data[index] = static_cast<DataType>(std::numeric_limits<DataType>::max() * other[index]);
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
@@ -224,18 +192,16 @@ class Color
     }
 
     template<class ODataType, unsigned int oDataSize>
-    void copy(const Color<ODataType, oDataSize>& other,
-              typename std::enable_if<
-                !(std::is_floating_point<ODataType>::value ||
-                  std::is_floating_point<DataType>::value) &&
-                !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(
+      const Color<ODataType, oDataSize>& other,
+      typename std::enable_if<!(std::is_floating_point<ODataType>::value || std::is_floating_point<DataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
             m_data[index] =
-              static_cast<DataType>((static_cast<float>(other[index]) *
-                                     std::numeric_limits<DataType>::max()) /
+              static_cast<DataType>((static_cast<float>(other[index]) * std::numeric_limits<DataType>::max()) /
                                     std::numeric_limits<ODataType>::max());
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
@@ -267,8 +233,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color& operator+=(const Color<ODataType, oDataSize>& other)
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         for(auto comp = 0; comp < nbComponents; ++comp)
         {
@@ -280,8 +245,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color operator+(const Color<ODataType, oDataSize>& other) const
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         Color temp{*this};
         return temp += other;
@@ -290,8 +254,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color& operator-=(const Color<ODataType, oDataSize>& other)
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         for(auto comp = 0; comp < nbComponents; ++comp)
         {
@@ -303,8 +266,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color operator-(const Color<ODataType, oDataSize>& other) const
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         Color temp{*this};
         return temp -= other;
@@ -313,8 +275,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color operator-() const
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         Color temp{};
         return temp -= *this;
@@ -323,8 +284,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color& operator*=(const Color<ODataType, oDataSize>& other)
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         for(auto comp = 0; comp < nbComponents; ++comp)
         {
@@ -336,8 +296,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color operator*(const Color<ODataType, oDataSize>& other) const
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         Color temp{*this};
         return temp *= other;
@@ -346,8 +305,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color& operator/=(const Color<ODataType, oDataSize>& other)
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         for(auto comp = 0; comp < nbComponents; ++comp)
         {
@@ -359,8 +317,7 @@ class Color
     template<class ODataType, unsigned int oDataSize>
     Color operator/(const Color<ODataType, oDataSize>& other) const
     {
-        static_assert(oDataSize == nbComponents &&
-                        std::is_same<DataType, ODataType>::value,
+        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
                       "Both colors must be of the same size and type");
         Color temp{*this};
         return temp /= other;

@@ -52,15 +52,9 @@ class STBIPP_API Image
   private:
     void copyData(const Image& other);
 
-    void copyData(unsigned char* data,
-                  int width,
-                  int height,
-                  ImageFormat pixelFormat);
+    void copyData(unsigned char* data, int width, int height, ImageFormat pixelFormat);
 
-    void copyData(unsigned short* data,
-                  int width,
-                  int height,
-                  ImageFormat pixelFormat);
+    void copyData(unsigned short* data, int width, int height, ImageFormat pixelFormat);
 
     void copyData(float* data, int width, int height, ImageFormat pixelFormat);
 

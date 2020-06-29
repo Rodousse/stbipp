@@ -7,7 +7,5 @@
 
 namespace stbipp
 {
-STBIPP_API Image loadImage(const std::string& path,
-                           const ImageFormat pixelFormat,
-                           bool& success);
+STBIPP_API Image loadImage(const std::string& path, const ImageFormat pixelFormat, bool& success);
 }

@@ -9,8 +9,7 @@
 
 namespace
 {
-using SaveFunction =
-  std::function<bool(char const*, int, int, int, const void*)>;
+using SaveFunction = std::function<bool(char const*, int, int, int, const void*)>;
 
 const std::unordered_set<std::string> getOneByteFileSavedFormat();
 const std::unordered_set<std::string> getSupportedSaveFileFormat();
@@ -33,8 +32,7 @@ bool write_tga(char const* filename, int w, int h, int comp, const void* data)
 // 32
 bool write_hdr(char const* filename, int w, int h, int comp, const void* data)
 {
-    return stbi_write_hdr(
-      filename, w, h, comp, static_cast<const float*>(data));
+    return stbi_write_hdr(filename, w, h, comp, static_cast<const float*>(data));
 }
 
 bool write_jpg(char const* filename, int w, int h, int comp, const void* data)
@@ -68,9 +66,7 @@ const std::unordered_set<std::string> getSupportedSaveFileFormat()
 
 namespace stbipp
 {
-bool saveImage(const std::string& path,
-               const Image& image,
-               const ImageSaveFormat pixelFormat)
+bool saveImage(const std::string& path, const Image& image, const ImageSaveFormat pixelFormat)
 {
     std::string pathExtension = path.substr(path.find_last_of(".") + 1);
 
@@ -79,10 +75,9 @@ bool saveImage(const std::string& path,
         return false;
     }
 
-    std::transform(pathExtension.begin(),
-                   pathExtension.end(),
-                   pathExtension.begin(),
-                   [](unsigned char c) { return std::tolower(c); });
+    std::transform(pathExtension.begin(), pathExtension.end(), pathExtension.begin(), [](unsigned char c) {
+        return std::tolower(c);
+    });
 
     if(!isFileSavedFormatSupported(pathExtension))
     {
@@ -120,38 +115,22 @@ bool saveImage(const std::string& path,
         if(pixelFormat == ImageSaveFormat::LUM)
         {
             auto dataVector = image.castData<Coloruc>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::LUMA)
         {
             auto dataVector = image.castData<Color2uc>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGB)
         {
             auto dataVector = image.castData<Color3uc>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGBA)
         {
             auto dataVector = image.castData<Color4uc>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
     }
 
@@ -160,38 +139,22 @@ bool saveImage(const std::string& path,
         if(pixelFormat == ImageSaveFormat::LUM)
         {
             auto dataVector = image.castData<Colorf>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::LUMA)
         {
             auto dataVector = image.castData<Color2f>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGB)
         {
             auto dataVector = image.castData<Color3f>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGBA)
         {
             auto dataVector = image.castData<Color4f>();
-            return function(path.data(),
-                            image.width(),
-                            image.height(),
-                            channels,
-                            dataVector.data());
+            return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
     }
     return false;
