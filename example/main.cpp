@@ -5,9 +5,8 @@
 int main()
 {
     bool loadSuccessful{};
-    auto image =
-      stbipp::loadImage(std::string(RESOURCE_PATH) + "/example.jpeg", stbipp::ImageFormat::RGB8, loadSuccessful);
-    if(!loadSuccessful)
+    stbipp::Image image{};
+    if(!stbipp::loadImage(std::string(RESOURCE_PATH) + "/example.jpeg", image, stbipp::ImageFormat::RGB8))
     {
         return 1;
     }

@@ -66,12 +66,11 @@ void freeStbData(void* data)
 
 namespace stbipp
 {
-Image loadImage(const std::string& path, const ImageFormat pixelFormat, bool& success)
+bool loadImage(const std::string& path, Image& image, const ImageFormat pixelFormat)
 {
     int width{};
     int height{};
     void* data{nullptr};
-    success = false;
     if(isFormat8Bits(pixelFormat))
     {
         data = loadUCharImage(path, width, height, pixelFormat);
@@ -84,14 +83,13 @@ Image loadImage(const std::string& path, const ImageFormat pixelFormat, bool& su
     {
         data = loadFloatImage(path, width, height, pixelFormat);
     }
-    success = data != nullptr;
-    if(success)
+    if(data != nullptr)
     {
-        Image image(data, static_cast<unsigned int>(width), static_cast<unsigned int>(height), pixelFormat);
+        image = Image(data, static_cast<unsigned int>(width), static_cast<unsigned int>(height), pixelFormat);
         freeStbData(data);
-        return image;
+        return true;
     }
-    return Image();
+    return false;
 }
 
 } // namespace stbipp
