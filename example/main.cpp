@@ -4,13 +4,14 @@
 
 int main()
 {
-    bool loadSuccessful{};
+    // Load Image
     stbipp::Image image{};
     if(!stbipp::loadImage(std::string(RESOURCE_PATH) + "/example.jpeg", image, stbipp::ImageFormat::RGB8))
     {
         return 1;
     }
 
+    // Create an image with the given dimensions
     stbipp::Image save(image.width(), image.height());
 
     for(auto i = 0; i < save.height(); ++i)
@@ -47,6 +48,8 @@ int main()
             }
         }
     }
+
+    // Export the created image
     if(!stbipp::saveImage("test.png", save, stbipp::ImageSaveFormat::RGB))
     {
         return 1;
