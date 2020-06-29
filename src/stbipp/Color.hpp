@@ -30,28 +30,53 @@ class Color
     }
 
     template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    Color(DataType r, DataType g) = delete;
+    explicit Color(DataType r, DataType g) = delete;
+
+    /**
+     * @brief Color constructor
+     * @param[in] r Red channel value
+     * @param[in] g Green channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
-    Color(DataType r, DataType g): m_data({r, g})
+    explicit Color(DataType r, DataType g): m_data({r, g})
     {
     }
 
     template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    Color(DataType r, DataType g, DataType b) = delete;
+    explicit Color(DataType r, DataType g, DataType b) = delete;
+
+    /**
+     * @brief Color constructor
+     * @param[in] r Red channel value
+     * @param[in] g Green channel value
+     * @param[in] b Blue channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
-    Color(DataType r, DataType g, DataType b): m_data({r, g, b})
+    explicit Color(DataType r, DataType g, DataType b): m_data({r, g, b})
     {
     }
 
     template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    Color(DataType r, DataType g, DataType b, DataType a) = delete;
+    explicit Color(DataType r, DataType g, DataType b, DataType a) = delete;
+
+    /**
+     * @brief Color constructor
+     * @param[in] r Red channel value
+     * @param[in] g Green channel value
+     * @param[in] b Blue channel value
+     * @param[in] a Alpha channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
-    Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
+    explicit Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
     {
     }
 
     template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     DataType r() const = delete;
+    /**
+     * @brief Access the red channel data
+     * @return Red channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType r() const
     {
@@ -60,6 +85,10 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     DataType& r() = delete;
+    /**
+     * @brief Access the red channel data
+     * @return Red channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType& r()
     {
@@ -68,6 +97,10 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
     DataType g() const = delete;
+    /**
+     * @brief Access the green channel data
+     * @return Green channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType g() const
     {
@@ -76,6 +109,10 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
     DataType& g() = delete;
+    /**
+     * @brief Access the green channel data
+     * @return Green channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType& g()
     {
@@ -84,6 +121,10 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
     DataType b() const = delete;
+    /**
+     * @brief Access the blue channel data
+     * @return Blue channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType b() const
     {
@@ -92,6 +133,10 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
     DataType& b() = delete;
+    /**
+     * @brief Access the blue channel data
+     * @return Blue channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType& b()
     {
@@ -100,7 +145,10 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
     DataType a() const = delete;
-
+    /**
+     * @brief Access the alpha channel data
+     * @return Alpha channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType a() const
     {
@@ -109,38 +157,67 @@ class Color
 
     template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
     DataType& a() = delete;
+    /**
+     * @brief Access the alpha channel data
+     * @return Alpha channel value
+     */
     template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType& a()
     {
         return m_data[3];
     }
 
+    /**
+     * @brief Retrieve the number of channels
+     * @return Channels count
+     */
     unsigned int size() const
     {
         return nbComponents;
     }
 
+    /**
+     * @brief Access the data of the first element
+     * @return A pointer to the first color element
+     */
     const DataType* data() const
     {
         return m_data.data();
     }
 
+    /**
+     * @brief Access the data of the first element
+     * @return A pointer to the first color element
+     */
     DataType* data()
     {
         return m_data.data();
     }
 
+    /**
+     * @brief Access the data the given index
+     * @return The value at the given index
+     */
     DataType operator[](unsigned int index) const
     {
         return m_data[index];
     }
 
+    /**
+     * @brief Access the data the given index
+     * @return The value at the given index
+     */
     DataType& operator[](unsigned int index)
     {
         return m_data[index];
     }
 
   private:
+    /**
+     * @brief Copy data of another color into this, with other uses the same data type as this but with possibly a
+     * different length
+     * @param[in] other Color to copy
+     */
     template<typename ODataType, unsigned int oDataSize>
     void copy(const Color<ODataType, oDataSize>& other,
               typename std::enable_if<std::is_same<DataType, ODataType>::value>::type* = nullptr)
@@ -156,6 +233,10 @@ class Color
         }
     }
 
+    /**
+     * @brief Copy data of another color into this, with other using an integer type and this a floating type
+     * @param[in] other Color to copy
+     */
     template<class ODataType, unsigned int oDataSize>
     void copy(
       const Color<ODataType, oDataSize>& other,
@@ -165,7 +246,7 @@ class Color
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = static_cast<float>(other[index]) / std::numeric_limits<ODataType>::max();
+            m_data[index] = static_cast<DataType>(other[index]) / std::numeric_limits<ODataType>::max();
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
@@ -173,6 +254,10 @@ class Color
         }
     }
 
+    /**
+     * @brief Copy data of another color into this, with other using a floating type and this an integer type
+     * @param[in] other Color to copy
+     */
     template<class ODataType, unsigned int oDataSize>
     void copy(
       const Color<ODataType, oDataSize>& other,
@@ -190,6 +275,10 @@ class Color
         }
     }
 
+    /**
+     * @brief Copy data of another color into this, with this and other using different integer types
+     * @param[in] other Color to copy
+     */
     template<class ODataType, unsigned int oDataSize>
     void copy(
       const Color<ODataType, oDataSize>& other,
@@ -210,6 +299,11 @@ class Color
     }
 
   public:
+    /**
+     * @brief Assignment operator
+     * @param[in] other The color to copy
+     * @return A reference to this
+     */
     template<class ODataType, unsigned int oDataSize>
     Color& operator=(const Color<ODataType, oDataSize>& other)
     {
@@ -217,18 +311,29 @@ class Color
         return *this;
     }
 
+    /**
+     * @brief Color copy constructor
+     */
     template<unsigned int oDataSize>
     Color(const Color<DataType, oDataSize>& other)
     {
         copy<DataType, oDataSize>(other);
     }
 
+    /**
+     * @brief Color copy constructor
+     */
     template<class ODataType, unsigned int oDataSize>
     Color(const Color<ODataType, oDataSize>& other)
     {
         copy<ODataType, oDataSize>(other);
     }
 
+    /**
+     * @brief Add the content of other to this
+     * @param[in] other The color to add
+     * @return A reference to this
+     */
     template<class ODataType, unsigned int oDataSize>
     Color& operator+=(const Color<ODataType, oDataSize>& other)
     {
@@ -241,6 +346,11 @@ class Color
         return *this;
     }
 
+    /**
+     * @brief Add the content of other to this as an immutable object
+     * @param[in] other The color to add
+     * @return The addition of this and other
+     */
     template<class ODataType, unsigned int oDataSize>
     Color operator+(const Color<ODataType, oDataSize>& other) const
     {
@@ -250,6 +360,11 @@ class Color
         return temp += other;
     }
 
+    /**
+     * @brief Substract the content of this by other
+     * @param[in] other The color to substract
+     * @return A reference to this
+     */
     template<class ODataType, unsigned int oDataSize>
     Color& operator-=(const Color<ODataType, oDataSize>& other)
     {
@@ -262,6 +377,11 @@ class Color
         return *this;
     }
 
+    /**
+     * @brief Substract the content of this by other as an immutable object
+     * @param[in] other The color to substract
+     * @return The substraction of this by other
+     */
     template<class ODataType, unsigned int oDataSize>
     Color operator-(const Color<ODataType, oDataSize>& other) const
     {
@@ -271,6 +391,10 @@ class Color
         return temp -= other;
     }
 
+    /**
+     * @brief Negate the content of this
+     * @return The negative version of this
+     */
     template<class ODataType, unsigned int oDataSize>
     Color operator-() const
     {
@@ -280,6 +404,11 @@ class Color
         return temp -= *this;
     }
 
+    /**
+     * @brief Multiply the content of other by this
+     * @param[in] other The color to multiply by
+     * @return A reference to this
+     */
     template<class ODataType, unsigned int oDataSize>
     Color& operator*=(const Color<ODataType, oDataSize>& other)
     {
@@ -292,6 +421,11 @@ class Color
         return *this;
     }
 
+    /**
+     * @brief Multiply the content of this by other as an immutable object
+     * @param[in] other The color to multiply
+     * @return The multiplication of this by other
+     */
     template<class ODataType, unsigned int oDataSize>
     Color operator*(const Color<ODataType, oDataSize>& other) const
     {
@@ -301,6 +435,11 @@ class Color
         return temp *= other;
     }
 
+    /**
+     * @brief Divide the content of this by other
+     * @param[in] other The color to divide
+     * @return A reference to this
+     */
     template<class ODataType, unsigned int oDataSize>
     Color& operator/=(const Color<ODataType, oDataSize>& other)
     {
@@ -313,6 +452,11 @@ class Color
         return *this;
     }
 
+    /**
+     * @brief Divide the content of this by other as an immutable object
+     * @param[in] other The color to divide
+     * @return The division of this by other
+     */
     template<class ODataType, unsigned int oDataSize>
     Color operator/(const Color<ODataType, oDataSize>& other) const
     {
