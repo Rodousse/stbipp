@@ -11,12 +11,6 @@ namespace stbipp
 template<class DataType, unsigned int nbComponents>
 class Color
 {
-    static_assert((std::is_same<DataType, unsigned short>::value || std::is_same<DataType, unsigned char>::value ||
-                   std::is_same<DataType, float>::value) &&
-                    (nbComponents > 0) && (nbComponents < 5),
-                  "Color template argument expect : float, unsigned short or unsigned char "
-                  "\n Color template argument expect number of components < 5");
-
   public:
     Color()
     {
