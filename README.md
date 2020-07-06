@@ -6,6 +6,35 @@ It brings an abstract layer between the features of stb_image and the developer,
 
 The initial idea was to create a library to easily load and write images, and convert those into different formats. Edit the images without having the overhead of a big library.
 
+The supported load format are the same as stb_image :
+
+
+> JPEG baseline & progressive (12 bpc/arithmetic not supported, same as stock IJG lib)
+> 
+> PNG 1/2/4/8/16-bit-per-channel
+> 
+> TGA (not sure what subset, if a subset)
+> 
+> BMP non-1bpp, non-RLE
+> 
+> PSD (composited view only, no extra channels, 8/16 bit-per-channel)
+> 
+> GIF (*comp always reports as 4-channel)
+> 
+> HDR (radiance rgbE format)
+> 
+> PIC (Softimage PIC)
+> 
+> PNM (PPM and PGM binary only)
+
+Also the supported export format are the same as stb_image_write :
+
+- JPEG
+- PNG
+- BMP
+- HDR
+- TGA
+
 # Requirements
 
 Really few requirements are needed :
