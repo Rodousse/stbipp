@@ -114,22 +114,22 @@ bool saveImage(const std::string& path, const Image& image, const ImageSaveForma
     {
         if(pixelFormat == ImageSaveFormat::LUM)
         {
-            auto dataVector = image.castData<Coloruc>();
+            const auto dataVector = image.castData<Coloruc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::LUMA)
         {
-            auto dataVector = image.castData<Color2uc>();
+            const auto dataVector = image.castData<Color2uc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGB)
         {
-            auto dataVector = image.castData<Color3uc>();
+            const auto dataVector = image.castData<Color3uc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGBA)
         {
-            auto dataVector = image.castData<Color4uc>();
+            const auto dataVector = image.castData<Color4uc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
     }
@@ -169,6 +169,7 @@ int formatChannelCount(const ImageSaveFormat& format)
         case ImageSaveFormat::RGB: return 3;
         case ImageSaveFormat::RGBA: return 4;
     }
+    return -1;
 }
 
 } // namespace stbipp

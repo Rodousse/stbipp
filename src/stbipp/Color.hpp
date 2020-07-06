@@ -198,7 +198,7 @@ class Color
      * @brief Access the data the given index
      * @return The value at the given index
      */
-    DataType operator[](unsigned int index) const
+    DataType operator[](int index) const
     {
         return m_data[index];
     }
@@ -207,7 +207,7 @@ class Color
      * @brief Access the data the given index
      * @return The value at the given index
      */
-    DataType& operator[](unsigned int index)
+    DataType& operator[](int index)
     {
         return m_data[index];
     }
@@ -225,7 +225,7 @@ class Color
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = other[index];
+            m_data[index] = other[static_cast<int>(index)];
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
@@ -246,7 +246,8 @@ class Color
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = static_cast<DataType>(other[index]) / std::numeric_limits<ODataType>::max();
+            m_data[index] =
+              static_cast<DataType>(other[static_cast<int>(index)]) / std::numeric_limits<ODataType>::max();
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
@@ -267,11 +268,12 @@ class Color
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
-            m_data[index] = static_cast<DataType>(std::numeric_limits<DataType>::max() * other[index]);
+            m_data[index] =
+              static_cast<DataType>(std::numeric_limits<DataType>::max() * other[static_cast<int>(index)]);
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
         {
-            m_data[index] = 0.0;
+            m_data[index] = static_cast<DataType>(0.0);
         }
     }
 
