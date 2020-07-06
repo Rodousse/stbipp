@@ -23,11 +23,19 @@ class STBIPP_API Image
     explicit Image() = default;
 
     /**
-     * @brief Image contructor
+     * @brief Image contructor, resize the image with the given dimensions
      * @param[in] width The image width
      * @param[in] height The image height
      */
     Image(int width, int height);
+
+    /**
+     * @brief Image contructor, filling the content with the given color
+     * @param[in] width The image width
+     * @param[in] height The image height
+     * @param[in] color The image will be filled with this color
+     */
+    Image(int width, int height, const Color4f& color);
 
     /**
      * @brief Image constructor
@@ -63,6 +71,12 @@ class STBIPP_API Image
      * @return Pointer to the color matrix data
      */
     const Color* data() const;
+
+    /**
+     * @brief Fill the image with the given color
+     * @param[in] color The image will be filled with this color
+     */
+    void fill(const Color4f& color);
 
     /**
      * @brief Resize the image with the given dimensions

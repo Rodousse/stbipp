@@ -11,6 +11,11 @@ Image::Image(int width, int height)
     resizeData(width, height);
 }
 
+Image::Image(int width, int height, const Color4f& color): Image(width, height)
+{
+    fill(color);
+}
+
 Image::Image(void* data, int width, int height, ImageFormat pixelFormat): Image(width, height)
 {
     if(isFormat8Bits(pixelFormat))
@@ -43,6 +48,11 @@ Image::Image(Image&& other): m_width(other.width()), m_height(other.height())
 const Image::Color* Image::data() const
 {
     return m_data.data();
+}
+
+void Image::fill(const Color4f& color)
+{
+    std::fill(m_data.begin(), m_data.end(), color);
 }
 
 void Image::resize(int width, int height)
