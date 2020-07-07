@@ -1,7 +1,6 @@
 #pragma once
 #include "StbippSymbols.h"
 #include "stbipp/Image.hpp"
-#include "stbipp/TypeTraits.hpp"
 
 #include <string>
 

@@ -51,8 +51,7 @@ set(STBIPP_HEADERS
     src/stbipp/Image.hpp
     src/stbipp/ImageFormat.hpp
     src/stbipp/ImageExporter.hpp
-    src/stbipp/ImageImporter.hpp
-    src/stbipp/TypeTraits.hpp)
+    src/stbipp/ImageImporter.hpp)
 
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 set(STBIPP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/stbipp)

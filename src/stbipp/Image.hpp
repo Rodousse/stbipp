@@ -2,6 +2,7 @@
 
 #include "StbippSymbols.h"
 #include "stbipp/Color.hpp"
+#include "stbipp/ImageFormat.hpp"
 
 #include <memory>
 #include <vector>

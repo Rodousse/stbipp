@@ -1,7 +1,5 @@
 #include "stbipp/Image.hpp"
 
-#include "stbipp/TypeTraits.hpp"
-
 #include <exception>
 
 namespace stbipp

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "stbipp/TypeTraits.hpp"
-
 #include <array>
 #include <limits>
 #include <type_traits>
