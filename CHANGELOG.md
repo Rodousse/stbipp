@@ -1,3 +1,9 @@
+# v0.1.1
+
+Fix :
+- CMake won't run due to missing file (see #1)
+
+
 # v0.1.0
 
 Features : 
