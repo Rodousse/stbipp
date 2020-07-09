@@ -1,5 +1,9 @@
 # v0.1.1
 
+
+Features : 
+- Clean cmake, and support release and debug installs in the same location (see #2)
+
 Fix :
 - CMake won't run due to missing file (see #1)
 
