@@ -48,6 +48,7 @@ Just clone the project and build/ install it where you want
 git clone https://github.com/Rodousse/stbipp.git
 cd stbipp
 mkdir build
+cd build
 cmake ..
 make
 ```
