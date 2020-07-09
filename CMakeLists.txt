@@ -81,6 +81,9 @@ if(NOT ${STBIPP_SHARED})
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS -DSTBIPP_STATIC_DEFINE)
 endif()
 
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set_property(TARGET ${PROJECT_NAME} PROPERTY DEBUG_POSTFIX "d")
+endif()
 
 ################################### Install/Packaging ##############################
 
