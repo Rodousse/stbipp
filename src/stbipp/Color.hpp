@@ -190,7 +190,7 @@ class Color
      * @brief Retrieve the number of channels
      * @return Channels count
      */
-    unsigned int size() const
+    constexpr unsigned int size() const noexcept
     {
         return nbComponents;
     }
