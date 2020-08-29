@@ -6,6 +6,27 @@
 
 namespace stbipp
 {
+template<class DataType, class ODataType>
+struct is_integer_to_integer_cast
+{
+    static const bool value = (std::is_integral<ODataType>::value && std::is_integral<DataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value;
+};
+
+template<class DataType, class ODataType>
+struct is_float_to_integer_cast
+{
+    static const bool value = (std::is_floating_point<DataType>::value && std::is_integral<ODataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value;
+};
+
+template<class DataType, class ODataType>
+struct is_integer_to_float_cast
+{
+    static const bool value = (std::is_integral<DataType>::value && std::is_floating_point<ODataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value;
+};
+
 template<class DataType, unsigned int nbComponents>
 class Color
 {
@@ -236,10 +257,8 @@ class Color
      * @param[in] other Color to copy
      */
     template<class ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<std::is_floating_point<DataType>::value && !std::is_floating_point<ODataType>::value &&
-                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<is_float_to_integer_cast<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
@@ -258,10 +277,8 @@ class Color
      * @param[in] other Color to copy
      */
     template<class ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<std::is_floating_point<ODataType>::value && !std::is_floating_point<DataType>::value &&
-                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<is_integer_to_float_cast<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
@@ -280,16 +297,14 @@ class Color
      * @param[in] other Color to copy
      */
     template<class ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<!(std::is_floating_point<ODataType>::value || std::is_floating_point<DataType>::value) &&
-                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<is_integer_to_integer_cast<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
             m_data[index] =
-              static_cast<DataType>((static_cast<float>(other[index]) * std::numeric_limits<DataType>::max()) /
+              static_cast<DataType>((static_cast<double>(other[index]) * std::numeric_limits<DataType>::max()) /
                                     std::numeric_limits<ODataType>::max());
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
