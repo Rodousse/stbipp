@@ -410,11 +410,8 @@ class Color
      * @brief Negate the content of this
      * @return The negative version of this
      */
-    template<class ODataType, unsigned int oDataSize>
     Color operator-() const
     {
-        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
-                      "Both colors must be of the same size and type");
         Color temp{};
         return temp -= *this;
     }
