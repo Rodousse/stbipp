@@ -24,7 +24,7 @@ class Color
     template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     explicit Color(DataType value)
     {
-        std::fill(m_data.begin(), m_data.end(), DataType(0));
+        std::fill(m_data.begin(), m_data.end(), value);
     }
 
     template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
