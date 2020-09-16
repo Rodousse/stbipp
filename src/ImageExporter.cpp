@@ -3,6 +3,7 @@
 #include "stbipp/ImageExporter.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <functional>
 #include <stb_image_write.h>
 #include <unordered_set>
