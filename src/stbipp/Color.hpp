@@ -57,21 +57,15 @@ class Color
         std::fill(m_data.begin(), m_data.end(), value);
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    explicit Color(DataType r, DataType g) = delete;
-
     /**
      * @brief Color constructor
      * @param[in] r Red channel value
      * @param[in] g Green channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     explicit Color(DataType r, DataType g): m_data({r, g})
     {
+        static_assert(nbComponents > 1, "Can't set value beyond size of color (number of channels < 2)");
     }
-
-    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    explicit Color(DataType r, DataType g, DataType b) = delete;
 
     /**
      * @brief Color constructor
@@ -79,13 +73,10 @@ class Color
      * @param[in] g Green channel value
      * @param[in] b Blue channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     explicit Color(DataType r, DataType g, DataType b): m_data({r, g, b})
     {
+        static_assert(nbComponents > 2, "Can't set value beyond size of color (number of channels < 3)");
     }
-
-    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    explicit Color(DataType r, DataType g, DataType b, DataType a) = delete;
 
     /**
      * @brief Color constructor
@@ -94,104 +85,92 @@ class Color
      * @param[in] b Blue channel value
      * @param[in] a Alpha channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     explicit Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
     {
+        static_assert(nbComponents > 3, "Can't set value beyond size of color (number of channels < 4)");
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    DataType r() const = delete;
     /**
      * @brief Access the red channel data
      * @return Red channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType r() const
     {
         return m_data[0];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    DataType& r() = delete;
     /**
      * @brief Access the red channel data
      * @return Red channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType& r()
     {
         return m_data[0];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    DataType g() const = delete;
     /**
      * @brief Access the green channel data
      * @return Green channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType g() const
     {
+        static_assert(nbComponents > 1,
+                      "Can't access the element at the second index (green) of a color with 1 channel");
         return m_data[1];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    DataType& g() = delete;
     /**
      * @brief Access the green channel data
      * @return Green channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType& g()
     {
+        static_assert(nbComponents > 1,
+                      "Can't access the element at the second index (green) of a color with 1 channel");
         return m_data[1];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    DataType b() const = delete;
     /**
      * @brief Access the blue channel data
      * @return Blue channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType b() const
     {
+        static_assert(nbComponents > 2,
+                      "Can't access the element at the third index (blue) of a color with 1 or 2 channels");
         return m_data[2];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    DataType& b() = delete;
     /**
      * @brief Access the blue channel data
      * @return Blue channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType& b()
     {
+        static_assert(nbComponents > 2,
+                      "Can't access the element at the third index (blue) of a color with 1 or 2 channels");
         return m_data[2];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    DataType a() const = delete;
     /**
      * @brief Access the alpha channel data
      * @return Alpha channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType a() const
     {
+        static_assert(nbComponents > 3,
+                      "Can't access the element at the fourth index (alpha) of a color with 1, 2 or 3 channels");
         return m_data[3];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    DataType& a() = delete;
     /**
      * @brief Access the alpha channel data
      * @return Alpha channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType& a()
     {
+        static_assert(nbComponents > 3,
+                      "Can't access the element at the fourth index (alpha) of a color with 1, 2 or 3 channels");
         return m_data[3];
     }
 
