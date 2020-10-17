@@ -69,10 +69,11 @@ void cropColorValues(stbipp::Image& image)
     {
         for(int x = 0; x < image.width(); ++x)
         {
-            std::for_each(image(x, y).begin(), image(x, y).end(), [](stbipp::Image::Color::data_type& value) {
+            for(auto& value: image(x, y))
+            {
                 if(value > 1.0)
                     value = 1.0;
-            });
+            }
         }
     }
 }
