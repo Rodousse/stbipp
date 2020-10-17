@@ -40,6 +40,7 @@ template<class DataType, unsigned int nbComponents>
 class Color
 {
     static_assert(is_data_type_compatible<DataType>::value, "Data type must be an integer or floating point type");
+    static_assert(nbComponents, "Color must have at least one channel");
 
   public:
     /**
@@ -47,13 +48,10 @@ class Color
      */
     Color() noexcept: Color(static_cast<DataType>(0.0)){};
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    explicit Color(DataType value) = delete;
     /**
      * @brief Color constructor
      * @param[in] value Fill the color with specified value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     explicit Color(DataType value)
     {
         std::fill(m_data.begin(), m_data.end(), value);
