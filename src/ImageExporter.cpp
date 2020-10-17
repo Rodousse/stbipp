@@ -63,6 +63,20 @@ const std::unordered_set<std::string> getSupportedSaveFileFormat()
     return fileFormat;
 }
 
+void cropColorValues(stbipp::Image& image)
+{
+    for(int y = 0; y < image.height(); ++y)
+    {
+        for(int x = 0; x < image.width(); ++x)
+        {
+            std::for_each(image(x, y).begin(), image(x, y).end(), [](stbipp::Image::Color::data_type& value) {
+                if(value > 1.0)
+                    value = 1.0;
+            });
+        }
+    }
+}
+
 } // namespace
 
 namespace stbipp
@@ -113,24 +127,26 @@ bool saveImage(const std::string& path, const Image& image, const ImageSaveForma
 
     if(isOneByteFileSavedFormat(pathExtension))
     {
+        Image croppedImage(image);
+        cropColorValues(croppedImage);
         if(pixelFormat == ImageSaveFormat::LUM)
         {
-            const auto dataVector = image.castData<Coloruc>();
+            const auto dataVector = croppedImage.castData<Coloruc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::LUMA)
         {
-            const auto dataVector = image.castData<Color2uc>();
+            const auto dataVector = croppedImage.castData<Color2uc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGB)
         {
-            const auto dataVector = image.castData<Color3uc>();
+            const auto dataVector = croppedImage.castData<Color3uc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
         else if(pixelFormat == ImageSaveFormat::RGBA)
         {
-            const auto dataVector = image.castData<Color4uc>();
+            const auto dataVector = croppedImage.castData<Color4uc>();
             return function(path.data(), image.width(), image.height(), channels, dataVector.data());
         }
     }
