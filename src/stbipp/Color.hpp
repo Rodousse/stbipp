@@ -42,7 +42,16 @@ class Color
     static_assert(is_data_type_compatible<DataType>::value, "Data type must be an integer or floating point type");
     static_assert(nbComponents, "Color must have at least one channel");
 
+  private:
+    std::array<DataType, nbComponents> m_data{};
+
   public:
+    using data_type = DataType;
+    using iterator = typename decltype(m_data)::iterator;
+    using const_iterator = typename decltype(m_data)::const_iterator;
+    using reverse_iterator = typename decltype(m_data)::reverse_iterator;
+    using const_reverse_iterator = typename decltype(m_data)::const_reverse_iterator;
+
     /**
      * @brief Color default constructor
      */
@@ -88,6 +97,114 @@ class Color
     explicit Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
     {
         static_assert(nbComponents > 3, "Can't set value beyond size of color (number of channels < 4)");
+    }
+
+    /**
+     * @brief Returns an iterator pointing to the first color channel
+     * @return LegacyRandomAccessIterator poiting to (*this)[0]
+     */
+    iterator begin() noexcept
+    {
+        return m_data.begin();
+    }
+
+    /**
+     * @brief Returns a const iterator pointing to the first color channel
+     * @return Constant LegacyRandomAccessIterator poiting to (*this)[0]
+     */
+    const_iterator begin() const noexcept
+    {
+        return m_data.cbegin();
+    }
+
+    /**
+     * @brief Returns a const iterator pointing to the first color channel
+     * @return Constant LegacyRandomAccessIterator poiting to (*this)[0]
+     */
+    const_iterator cbegin() const noexcept
+    {
+        return m_data.cbegin();
+    }
+
+    /**
+     * @brief Returns a reverse iterator pointing to the last color channel
+     * @return std::reverse_iterator<iterator> poiting to (*this)[size()-1]
+     */
+    iterator rbegin() noexcept
+    {
+        return m_data.rbegin();
+    }
+
+    /**
+     * @brief Returns a constant reverse iterator pointing to the last color channel
+     * @return std::reverse_iterator<const_iterator> poiting to (*this)[size()-1]
+     */
+    const_iterator rbegin() const noexcept
+    {
+        return m_data.crbegin();
+    }
+
+    /**
+     * @brief Returns a constant reverse iterator pointing to the last color channel
+     * @return std::reverse_iterator<const_iterator> poiting to (*this)[size()-1]
+     */
+    const_iterator crbegin() const noexcept
+    {
+        return m_data.crbegin();
+    }
+
+    /**
+     * @brief Returns an iterator to the element following the last color channel
+     * @return LegacyRandomAccessIterator
+     */
+    iterator end() noexcept
+    {
+        return m_data.end();
+    }
+
+    /**
+     * @brief Returns a constant iterator to the element following the last color channel
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator end() const noexcept
+    {
+        return m_data.cend();
+    }
+
+    /**
+     * @brief Returns a constant iterator to the element following the last color channel
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator cend() const noexcept
+    {
+        return m_data.cend();
+    }
+
+    /**
+     * @brief Returns a reverse iterator to the element preceding the first color channel
+     * @return std::reverse_iterator<iterator>
+     */
+    iterator rend() noexcept
+    {
+        return m_data.rend();
+    }
+
+    /**
+     * @brief Returns a constant reverse iterator to the element preceding the first color channel
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_iterator rend() const noexcept
+    {
+        return m_data.crend();
+    }
+
+    /**
+     * @brief Returns a constant reverse iterator to the element preceding the first color channel
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_iterator crend() const noexcept
+    {
+        return m_data.crend();
     }
 
     /**
@@ -465,9 +582,6 @@ class Color
         Color temp{*this};
         return temp /= other;
     }
-
-  private:
-    std::array<DataType, nbComponents> m_data{};
 };
 
 using Colorf = Color<float, 1>;
