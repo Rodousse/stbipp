@@ -27,14 +27,22 @@ struct is_integer_to_float_cast
                               !std::is_same<DataType, ODataType>::value;
 };
 
+template<class DataType>
+struct is_data_type_compatible
+{
+    static const bool value = std::is_integral<DataType>::value || std::is_floating_point<DataType>::value;
+};
+
 template<class DataType, unsigned int nbComponents>
 class Color
 {
+    static_assert(is_data_type_compatible<DataType>::value, "Data type must be an integer or floating point type");
+
   public:
     /**
      * @brief Color default constructor
      */
-    Color(): Color(static_cast<DataType>(0.0)){};
+    Color() noexcept: Color(static_cast<DataType>(0.0)){};
 
     template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
     explicit Color(DataType value) = delete;
