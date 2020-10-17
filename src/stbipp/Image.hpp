@@ -36,7 +36,7 @@ class STBIPP_API Image
      * @param[in] height The image height
      * @param[in] color The image will be filled with this color
      */
-    Image(int width, int height, const Color4f& color);
+    Image(int width, int height, const Color& color);
 
     /**
      * @brief Image constructor
@@ -77,7 +77,7 @@ class STBIPP_API Image
      * @brief Fill the image with the given color
      * @param[in] color The image will be filled with this color
      */
-    void fill(const Color4f& color);
+    void fill(const Color& color);
 
     /**
      * @brief Resize the image with the given dimensions
