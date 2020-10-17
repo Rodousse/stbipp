@@ -1,3 +1,11 @@
+# Unpublished changes
+
+Features :
+- Add color channel iterators (iterator, const_iterator, reverse_iterator, const_reverse_iterator)
+
+Fix :
+- Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0
+
 # v0.1.1
 
 

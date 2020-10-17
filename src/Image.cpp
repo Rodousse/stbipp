@@ -9,7 +9,7 @@ Image::Image(int width, int height)
     resizeData(width, height);
 }
 
-Image::Image(int width, int height, const Color4f& color): Image(width, height)
+Image::Image(int width, int height, const Color& color): Image(width, height)
 {
     fill(color);
 }
@@ -48,7 +48,7 @@ const Image::Color* Image::data() const
     return m_data.data();
 }
 
-void Image::fill(const Color4f& color)
+void Image::fill(const Color& color)
 {
     std::fill(m_data.begin(), m_data.end(), color);
 }
