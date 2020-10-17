@@ -4,7 +4,7 @@
 #include <limits>
 #include <type_traits>
 
-namespace stbipp
+namespace
 {
 template<class DataType, class ODataType>
 struct is_integer_to_integer_cast
@@ -32,7 +32,10 @@ struct is_data_type_compatible
 {
     static const bool value = std::is_integral<DataType>::value || std::is_floating_point<DataType>::value;
 };
+} // namespace
 
+namespace stbipp
+{
 template<class DataType, unsigned int nbComponents>
 class Color
 {
