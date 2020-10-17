@@ -4,44 +4,68 @@
 #include <limits>
 #include <type_traits>
 
+namespace
+{
+template<class DataType, class ODataType>
+struct is_integer_to_integer_cast
+{
+    static const bool value = (std::is_integral<ODataType>::value && std::is_integral<DataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value;
+};
+
+template<class DataType, class ODataType>
+struct is_float_to_integer_cast
+{
+    static const bool value = (std::is_floating_point<DataType>::value && std::is_integral<ODataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value;
+};
+
+template<class DataType, class ODataType>
+struct is_integer_to_float_cast
+{
+    static const bool value = (std::is_integral<DataType>::value && std::is_floating_point<ODataType>::value) &&
+                              !std::is_same<DataType, ODataType>::value;
+};
+
+template<class DataType>
+struct is_data_type_compatible
+{
+    static const bool value = std::is_integral<DataType>::value || std::is_floating_point<DataType>::value;
+};
+} // namespace
+
 namespace stbipp
 {
 template<class DataType, unsigned int nbComponents>
 class Color
 {
+    static_assert(is_data_type_compatible<DataType>::value, "Data type must be an integer or floating point type");
+    static_assert(nbComponents, "Color must have at least one channel");
+
   public:
     /**
      * @brief Color default constructor
      */
-    Color(): Color(static_cast<DataType>(0.0)){};
+    Color() noexcept: Color(static_cast<DataType>(0.0)){};
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    explicit Color(DataType value) = delete;
     /**
      * @brief Color constructor
      * @param[in] value Fill the color with specified value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     explicit Color(DataType value)
     {
         std::fill(m_data.begin(), m_data.end(), value);
     }
-
-    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    explicit Color(DataType r, DataType g) = delete;
 
     /**
      * @brief Color constructor
      * @param[in] r Red channel value
      * @param[in] g Green channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     explicit Color(DataType r, DataType g): m_data({r, g})
     {
+        static_assert(nbComponents > 1, "Can't set value beyond size of color (number of channels < 2)");
     }
-
-    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    explicit Color(DataType r, DataType g, DataType b) = delete;
 
     /**
      * @brief Color constructor
@@ -49,13 +73,10 @@ class Color
      * @param[in] g Green channel value
      * @param[in] b Blue channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     explicit Color(DataType r, DataType g, DataType b): m_data({r, g, b})
     {
+        static_assert(nbComponents > 2, "Can't set value beyond size of color (number of channels < 3)");
     }
-
-    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    explicit Color(DataType r, DataType g, DataType b, DataType a) = delete;
 
     /**
      * @brief Color constructor
@@ -64,104 +85,92 @@ class Color
      * @param[in] b Blue channel value
      * @param[in] a Alpha channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     explicit Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
     {
+        static_assert(nbComponents > 3, "Can't set value beyond size of color (number of channels < 4)");
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    DataType r() const = delete;
     /**
      * @brief Access the red channel data
      * @return Red channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType r() const
     {
         return m_data[0];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 0)>::type* = nullptr>
-    DataType& r() = delete;
     /**
      * @brief Access the red channel data
      * @return Red channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 0)>::type* = nullptr>
     DataType& r()
     {
         return m_data[0];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    DataType g() const = delete;
     /**
      * @brief Access the green channel data
      * @return Green channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType g() const
     {
+        static_assert(nbComponents > 1,
+                      "Can't access the element at the second index (green) of a color with 1 channel");
         return m_data[1];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 1)>::type* = nullptr>
-    DataType& g() = delete;
     /**
      * @brief Access the green channel data
      * @return Green channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 1)>::type* = nullptr>
     DataType& g()
     {
+        static_assert(nbComponents > 1,
+                      "Can't access the element at the second index (green) of a color with 1 channel");
         return m_data[1];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    DataType b() const = delete;
     /**
      * @brief Access the blue channel data
      * @return Blue channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType b() const
     {
+        static_assert(nbComponents > 2,
+                      "Can't access the element at the third index (blue) of a color with 1 or 2 channels");
         return m_data[2];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 2)>::type* = nullptr>
-    DataType& b() = delete;
     /**
      * @brief Access the blue channel data
      * @return Blue channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 2)>::type* = nullptr>
     DataType& b()
     {
+        static_assert(nbComponents > 2,
+                      "Can't access the element at the third index (blue) of a color with 1 or 2 channels");
         return m_data[2];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    DataType a() const = delete;
     /**
      * @brief Access the alpha channel data
      * @return Alpha channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType a() const
     {
+        static_assert(nbComponents > 3,
+                      "Can't access the element at the fourth index (alpha) of a color with 1, 2 or 3 channels");
         return m_data[3];
     }
 
-    template<int I = nbComponents, typename std::enable_if<!(I > 3)>::type* = nullptr>
-    DataType& a() = delete;
     /**
      * @brief Access the alpha channel data
      * @return Alpha channel value
      */
-    template<int I = nbComponents, typename std::enable_if<(I > 3)>::type* = nullptr>
     DataType& a()
     {
+        static_assert(nbComponents > 3,
+                      "Can't access the element at the fourth index (alpha) of a color with 1, 2 or 3 channels");
         return m_data[3];
     }
 
@@ -169,7 +178,7 @@ class Color
      * @brief Retrieve the number of channels
      * @return Channels count
      */
-    unsigned int size() const
+    constexpr unsigned int size() const noexcept
     {
         return nbComponents;
     }
@@ -236,10 +245,8 @@ class Color
      * @param[in] other Color to copy
      */
     template<class ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<std::is_floating_point<DataType>::value && !std::is_floating_point<ODataType>::value &&
-                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<is_float_to_integer_cast<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
@@ -258,10 +265,8 @@ class Color
      * @param[in] other Color to copy
      */
     template<class ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<std::is_floating_point<ODataType>::value && !std::is_floating_point<DataType>::value &&
-                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<is_integer_to_float_cast<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
@@ -280,16 +285,14 @@ class Color
      * @param[in] other Color to copy
      */
     template<class ODataType, unsigned int oDataSize>
-    void copy(
-      const Color<ODataType, oDataSize>& other,
-      typename std::enable_if<!(std::is_floating_point<ODataType>::value || std::is_floating_point<DataType>::value) &&
-                              !std::is_same<DataType, ODataType>::value>::type* = nullptr)
+    void copy(const Color<ODataType, oDataSize>& other,
+              typename std::enable_if<is_integer_to_integer_cast<DataType, ODataType>::value>::type* = nullptr)
     {
         std::size_t minSize = std::min(oDataSize, nbComponents);
         for(std::size_t index = 0; index < minSize; ++index)
         {
             m_data[index] =
-              static_cast<DataType>((static_cast<float>(other[index]) * std::numeric_limits<DataType>::max()) /
+              static_cast<DataType>((static_cast<double>(other[index]) * std::numeric_limits<DataType>::max()) /
                                     std::numeric_limits<ODataType>::max());
         }
         for(std::size_t index = minSize; index < nbComponents; ++index)
@@ -395,11 +398,8 @@ class Color
      * @brief Negate the content of this
      * @return The negative version of this
      */
-    template<class ODataType, unsigned int oDataSize>
     Color operator-() const
     {
-        static_assert(oDataSize == nbComponents && std::is_same<DataType, ODataType>::value,
-                      "Both colors must be of the same size and type");
         Color temp{};
         return temp -= *this;
     }
