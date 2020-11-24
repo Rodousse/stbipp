@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-option(STBIPP_SHARED "Build STBIPP as shared Library" ON)
+option(BUILD_SHARED_LIBS "Build STBIPP as shared Library" ON)
 option(STBIPP_BUILD_EXAMPLE "Build STBIPP examples" ON)
 option(STBIPP_INSTALL "Enable if you wish to perform an install / Disable to use the lib as third party" OFF)
 
@@ -56,11 +56,7 @@ set(STBIPP_HEADERS
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 set(STBIPP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/stbipp)
 
-if(${STBIPP_SHARED})
-    add_library(${PROJECT_NAME} SHARED ${STBIPP_SOURCES} ${STBIPP_HEADERS})
-else()
-    add_library(${PROJECT_NAME} STATIC ${STBIPP_SOURCES} ${STBIPP_HEADERS})
-endif()
+add_library(${PROJECT_NAME} ${STBIPP_SOURCES} ${STBIPP_HEADERS})
 
 
 generate_export_header(${PROJECT_NAME}
@@ -77,7 +73,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     )
 
 
-if(NOT ${STBIPP_SHARED})
+if(NOT ${BUILD_SHARED_LIBS})
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS -DSTBIPP_STATIC_DEFINE)
 endif()
 
