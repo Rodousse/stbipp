@@ -73,11 +73,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 
 if(NOT ${BUILD_SHARED_LIBS})
-    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS -DSTBIPP_STATIC_DEFINE)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC STBIPP_STATIC_DEFINE)
 endif()
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-    set_property(TARGET ${PROJECT_NAME} PROPERTY DEBUG_POSTFIX "d")
+    set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 endif()
 
 ################################### Install/Packaging ##############################
