@@ -97,7 +97,7 @@ install(EXPORT ${PROJECT_NAME}Target NAMESPACE Stbipp:: DESTINATION ${CONFIG_INS
 
 configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/StbippConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/StbippConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfig.cmake
     INSTALL_DESTINATION ${CONFIG_INSTALL_DIR}
     )
 
@@ -122,7 +122,7 @@ install(
     )
 install(
     FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/StbippConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfigVersion.cmake
     DESTINATION ${CONFIG_INSTALL_DIR}
     )
