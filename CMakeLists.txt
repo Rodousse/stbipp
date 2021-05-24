@@ -60,7 +60,7 @@ add_library(${PROJECT_NAME} ${STBIPP_SOURCES} ${STBIPP_HEADERS})
 
 generate_export_header(${PROJECT_NAME}
   EXPORT_MACRO_NAME STBIPP_API
-  EXPORT_FILE_NAME ${GENERATED_DIR}/StbippSymbols.h
+  EXPORT_FILE_NAME ${GENERATED_DIR}/stbipp/StbippSymbols.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -83,7 +83,6 @@ endif()
 ################################### Install/Packaging ##############################
 
 set(CONFIG_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}")
-set(STBIPP_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
 set(TARGETS_EXPORT_NAME ${PROJECT_NAME}Target)
 
 install(
@@ -97,7 +96,7 @@ install(EXPORT ${PROJECT_NAME}Target NAMESPACE Stbipp:: DESTINATION ${CONFIG_INS
 
 configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/StbippConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/StbippConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfig.cmake
     INSTALL_DESTINATION ${CONFIG_INSTALL_DIR}
     )
 
@@ -116,13 +115,13 @@ install(
 
 install(
     FILES
-    ${GENERATED_DIR}/StbippSymbols.h
+    ${GENERATED_DIR}/stbipp/StbippSymbols.h
     DESTINATION
     ${STBIPP_INCLUDE_DIR}
     )
 install(
     FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/StbippConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfigVersion.cmake
     DESTINATION ${CONFIG_INSTALL_DIR}
     )

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "StbippSymbols.h"
 #include "stbipp/Color.hpp"
 #include "stbipp/ImageFormat.hpp"
+#include "stbipp/StbippSymbols.h"
 
 #include <memory>
 #include <vector>
