@@ -5,6 +5,7 @@ Features :
 
 Fix :
 - Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0
+- Fix symbols export for installed library
 
 # v0.1.1
 
