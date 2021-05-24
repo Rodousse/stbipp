@@ -170,7 +170,7 @@ class Color
      * @brief Returns a reverse iterator pointing to the last color channel
      * @return std::reverse_iterator<iterator> poiting to (*this)[size()-1]
      */
-    iterator rbegin() noexcept
+    reverse_iterator rbegin() noexcept
     {
         return m_data.rbegin();
     }
@@ -179,7 +179,7 @@ class Color
      * @brief Returns a constant reverse iterator pointing to the last color channel
      * @return std::reverse_iterator<const_iterator> poiting to (*this)[size()-1]
      */
-    const_iterator rbegin() const noexcept
+    const_reverse_iterator rbegin() const noexcept
     {
         return m_data.crbegin();
     }
@@ -188,7 +188,7 @@ class Color
      * @brief Returns a constant reverse iterator pointing to the last color channel
      * @return std::reverse_iterator<const_iterator> poiting to (*this)[size()-1]
      */
-    const_iterator crbegin() const noexcept
+    const_reverse_iterator crbegin() const noexcept
     {
         return m_data.crbegin();
     }
@@ -224,7 +224,7 @@ class Color
      * @brief Returns a reverse iterator to the element preceding the first color channel
      * @return std::reverse_iterator<iterator>
      */
-    iterator rend() noexcept
+    reverse_iterator rend() noexcept
     {
         return m_data.rend();
     }
@@ -233,7 +233,7 @@ class Color
      * @brief Returns a constant reverse iterator to the element preceding the first color channel
      * @return std::reverse_iterator<const_iterator>
      */
-    const_iterator rend() const noexcept
+    const_reverse_iterator rend() const noexcept
     {
         return m_data.crend();
     }
@@ -242,7 +242,7 @@ class Color
      * @brief Returns a constant reverse iterator to the element preceding the first color channel
      * @return std::reverse_iterator<const_iterator>
      */
-    const_iterator crend() const noexcept
+    const_reverse_iterator crend() const noexcept
     {
         return m_data.crend();
     }

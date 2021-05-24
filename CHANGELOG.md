@@ -8,6 +8,7 @@ Fix :
 - Fix symbols export for installed library
 - Fix `Image` move operations
 - Fix `Color` move and copy operations
+- Fix `Color` reverse iterator, was returning forward iterator instead
 
 # v0.1.1
 
