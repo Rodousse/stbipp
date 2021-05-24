@@ -107,6 +107,14 @@ Image& Image::operator=(const Image& other)
     return *this;
 }
 
+Image& Image::operator=(Image&& other)
+{
+    m_width = other.width();
+    m_height = other.height();
+    std::swap(m_data, other.m_data);
+    return *this;
+}
+
 void Image::copyData(const Image& other)
 {
     for(int rowIndex = 0; rowIndex < other.m_height; ++rowIndex)
