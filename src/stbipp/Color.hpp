@@ -100,6 +100,46 @@ class Color
     }
 
     /**
+     * @brief Color copy constructor
+     *
+     * @param[in] other Color to copy
+     */
+    Color(const Color& other): m_data(other.m_data) {}
+
+    /**
+     * @brief Color move constructor
+     *
+     * @param other Color to move
+     */
+    Color(Color&& other): m_data(std::move(other.m_data)) {}
+
+    /**
+     * @brief Color copy operator
+     *
+     * @param other Color to copy
+     *
+     * @return Reference to the color
+     */
+    Color& operator=(const Color& other)
+    {
+        std::copy(other.m_data.cbegin(), other.m_data.cend(), m_data.begin());
+        return *this;
+    }
+
+    /**
+     * @brief Color move operator
+     *
+     * @param other Color to move
+     *
+     * @return Reference to the color
+     */
+    Color& operator=(Color&& other)
+    {
+        std::swap(other.m_data, m_data);
+        return *this;
+    }
+
+    /**
      * @brief Returns an iterator pointing to the first color channel
      * @return LegacyRandomAccessIterator poiting to (*this)[0]
      */
@@ -424,7 +464,10 @@ class Color
      * @param[in] other The color to copy
      * @return A reference to this
      */
-    template<class ODataType, unsigned int oDataSize>
+    template<class ODataType,
+             unsigned int oDataSize,
+             typename std::enable_if<!(std::is_same<ODataType, DataType>::value && oDataSize == nbComponents),
+                                     bool>::type = true>
     Color& operator=(const Color<ODataType, oDataSize>& other)
     {
         copy(other);
@@ -433,20 +476,16 @@ class Color
 
     /**
      * @brief Color copy constructor
+     *
+     * @param other Color to copy
      */
-    template<unsigned int oDataSize>
-    Color(const Color<DataType, oDataSize>& other)
-    {
-        copy<DataType, oDataSize>(other);
-    }
-
-    /**
-     * @brief Color copy constructor
-     */
-    template<class ODataType, unsigned int oDataSize>
+    template<class ODataType,
+             unsigned int oDataSize,
+             typename std::enable_if<!(std::is_same<ODataType, DataType>::value && oDataSize == nbComponents),
+                                     bool>::type = true>
     Color(const Color<ODataType, oDataSize>& other)
     {
-        copy<ODataType, oDataSize>(other);
+        copy(other);
     }
 
     /**
