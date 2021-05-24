@@ -83,7 +83,6 @@ endif()
 ################################### Install/Packaging ##############################
 
 set(CONFIG_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}")
-set(STBIPP_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
 set(TARGETS_EXPORT_NAME ${PROJECT_NAME}Target)
 
 install(
