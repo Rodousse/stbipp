@@ -138,6 +138,13 @@ class STBIPP_API Image
      */
     Image& operator=(const Image& other);
 
+    /**
+     * @brief Move operator
+     * @param[in] other The image to move
+     * @return A reference to the image
+     */
+    Image& operator=(Image&& other);
+
   private:
     /**
      * @brief Copy the data of the other image into this

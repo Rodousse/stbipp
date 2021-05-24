@@ -6,6 +6,9 @@ Features :
 Fix :
 - Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0
 - Fix symbols export for installed library
+- Fix `Image` move operations
+- Fix `Color` move and copy operations
+- Fix `Color` reverse iterator, was returning forward iterator instead
 
 # v0.1.1
 
