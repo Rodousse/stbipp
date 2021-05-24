@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StbippSymbols.h"
+#include "stbipp/StbippSymbols.h"
 
 namespace stbipp
 {

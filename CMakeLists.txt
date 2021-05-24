@@ -60,7 +60,7 @@ add_library(${PROJECT_NAME} ${STBIPP_SOURCES} ${STBIPP_HEADERS})
 
 generate_export_header(${PROJECT_NAME}
   EXPORT_MACRO_NAME STBIPP_API
-  EXPORT_FILE_NAME ${GENERATED_DIR}/StbippSymbols.h
+  EXPORT_FILE_NAME ${GENERATED_DIR}/stbipp/StbippSymbols.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -115,7 +115,7 @@ install(
 
 install(
     FILES
-    ${GENERATED_DIR}/StbippSymbols.h
+    ${GENERATED_DIR}/stbipp/StbippSymbols.h
     DESTINATION
     ${STBIPP_INCLUDE_DIR}
     )
