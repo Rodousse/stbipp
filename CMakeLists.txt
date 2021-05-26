@@ -47,6 +47,7 @@ set(STBIPP_SOURCES
 
 set(STBIPP_HEADERS
     src/stbipp/Color.hpp
+    src/stbipp/Color.inl
     src/stbipp/Image.hpp
     src/stbipp/ImageFormat.hpp
     src/stbipp/ImageExporter.hpp
