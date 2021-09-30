@@ -282,10 +282,9 @@ void Color<DataType, channels>::copy(
 }
 
 template<class DataType, unsigned int channels>
-template<
-  class ODataType,
-  unsigned int oDataSize,
-  typename std::enable_if<!(std::is_same<ODataType, DataType>::value && oDataSize == channels), bool>::type = true>
+template<class ODataType,
+         unsigned int oDataSize,
+         typename std::enable_if<!(std::is_same<ODataType, DataType>::value && oDataSize == channels), bool>::type>
 Color<DataType, channels>& Color<DataType, channels>::operator=(const Color<ODataType, oDataSize>& other)
 {
     copy(other);
@@ -293,10 +292,9 @@ Color<DataType, channels>& Color<DataType, channels>::operator=(const Color<ODat
 }
 
 template<class DataType, unsigned int channels>
-template<
-  class ODataType,
-  unsigned int oDataSize,
-  typename std::enable_if<!(std::is_same<ODataType, DataType>::value && oDataSize == channels), bool>::type = true>
+template<class ODataType,
+         unsigned int oDataSize,
+         typename std::enable_if<!(std::is_same<ODataType, DataType>::value && oDataSize == channels), bool>::type>
 Color<DataType, channels>::Color(const Color<ODataType, oDataSize>& other)
 {
     copy(other);
