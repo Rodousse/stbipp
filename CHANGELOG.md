@@ -1,9 +1,12 @@
 # Unpublished changes
 
-Features :
+Features:
 - Add color channel iterators (iterator, const_iterator, reverse_iterator, const_reverse_iterator)
 
-Fix :
+Refactor:
+- Move template function implementation in a separate file (see #20)
+
+Fix:
 - Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0
 - Fix symbols export for installed library
 - Fix `Image` move operations
@@ -12,17 +15,15 @@ Fix :
 
 # v0.1.1
 
-
-Features : 
+Features:
 - Clean cmake, and support release and debug installs in the same location (see #2)
 
-Fix :
+Fix:
 - CMake won't run due to missing file (see #1)
-
 
 # v0.1.0
 
-Features : 
+Features:
 - Load image files (JPEG, PNG, BMP, PSD, TGA, GIF, HDR, PIC, PNM)
 - Export (JPEG, PNG, BMP, HDR, TGA)
 - Basic image edition features
