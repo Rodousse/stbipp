@@ -103,7 +103,7 @@ configure_package_config_file(
 
 write_basic_package_version_file(
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfigVersion.cmake
-    COMPATIBILITY ExactVersion
+    COMPATIBILITY SameMajorVersion
     )
 
 install(
