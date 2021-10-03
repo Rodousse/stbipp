@@ -111,7 +111,9 @@ install(
     src/stbipp
     DESTINATION
     ${INCLUDE_INSTALL_DIR}
-    FILES_MATCHING PATTERN "*.hpp"
+    FILES_MATCHING 
+    PATTERN "*.hpp" 
+    PATTERN "*.inl"
     )
 
 install(
