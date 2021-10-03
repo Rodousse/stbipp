@@ -6,6 +6,7 @@ Features:
 
 Refactor:
 - Move template function implementation in a separate file (see #20)
+- Change the CMake package compatibility strategy from 'ExactVersion' to 'SameMajorVersion'
 
 Fix:
 - Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0
