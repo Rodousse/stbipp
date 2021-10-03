@@ -341,7 +341,7 @@ class Color
     Color& operator+=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Add the content of val to all channels of this
+     * @brief Add the content of val to all channels content
      *
      * @tparam Real val type
      * @param[in] val Value to be added
@@ -360,7 +360,7 @@ class Color
     Color operator+(const Color<ODataType, oDataSize>& other) const;
 
     /**
-     * @brief Add the content of val to all channels content of this in a new object
+     * @brief Add the content of val to all channels content in a new object
      *
      * @tparam Real val type
      * @param[in] val Value to be added
@@ -379,7 +379,7 @@ class Color
     Color& operator-=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Substract the content of val to all channels content of this
+     * @brief Substract the content of val to all channels content
      *
      * @tparam Real val type
      * @param[in] val Value to be substracted
@@ -398,7 +398,7 @@ class Color
     Color operator-(const Color<ODataType, oDataSize>& other) const;
 
     /**
-     * @brief Substract the content of val to all channels of this in a new object
+     * @brief Substract the content of val to all channels in a new object
      *
      * @tparam Real val type
      * @param[in] val Value to be substracted
