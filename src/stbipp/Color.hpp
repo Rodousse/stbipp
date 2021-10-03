@@ -360,7 +360,7 @@ class Color
     Color operator+(const Color<ODataType, oDataSize>& other) const;
 
     /**
-     * @brief Add the content of val to all channels of this in a new object
+     * @brief Add the content of val to all channels content of this in a new object
      *
      * @tparam Real val type
      * @param[in] val Value to be added
@@ -379,7 +379,7 @@ class Color
     Color& operator-=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Substract the content of val to all channels of this
+     * @brief Substract the content of val to all channels content of this
      *
      * @tparam Real val type
      * @param[in] val Value to be substracted
@@ -423,7 +423,7 @@ class Color
     Color& operator*=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Multiply the content of val to all channels of this
+     * @brief Multiply the content of val by all channels value
      *
      * @tparam Real val type
      * @param[in] val Value to multiply
@@ -442,7 +442,7 @@ class Color
     Color operator*(const Color<ODataType, oDataSize>& other) const;
 
     /**
-     * @brief Multiply the content of val to all channels of this in a new object
+     * @brief Multiply the content of val by all channels value in a new object
      *
      * @tparam Real val type
      * @param[in] val Value to multiply
@@ -461,7 +461,7 @@ class Color
     Color& operator/=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Divide the content of all channels of this by val
+     * @brief Divide the content of all channels by val
      *
      * @tparam Real val type
      * @param[in] val Value to divide by
@@ -480,7 +480,7 @@ class Color
     Color operator/(const Color<ODataType, oDataSize>& other) const;
 
     /**
-     * @brief Divide the content of all channels of this by val in a new object
+     * @brief Divide the content of all channels by val in a new object
      *
      * @tparam Real val type
      * @param[in] val Value to divide by
