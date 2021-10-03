@@ -2,9 +2,11 @@
 
 Features:
 - Add color channel iterators (iterator, const_iterator, reverse_iterator, const_reverse_iterator)
+- Add color binary operation with single float or integral value (see #17)
 
 Refactor:
 - Move template function implementation in a separate file (see #20)
+- Change the CMake package compatibility strategy from `ExactVersion` to `SameMajorVersion`
 
 Fix:
 - Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0

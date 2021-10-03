@@ -314,6 +314,18 @@ Color<DataType, channels>& Color<DataType, channels>::operator+=(const Color<ODa
 }
 
 template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
+Color<DataType, channels>::operator+=(Real val)
+{
+    for(auto& channel: m_data)
+    {
+        channel += static_cast<DataType>(val);
+    }
+    return *this;
+}
+
+template<class DataType, unsigned int channels>
 template<class ODataType, unsigned int oDataSize>
 Color<DataType, channels> Color<DataType, channels>::operator+(const Color<ODataType, oDataSize>& other) const
 {
@@ -321,6 +333,15 @@ Color<DataType, channels> Color<DataType, channels>::operator+(const Color<OData
                   "Both colors must be of the same size and type");
     Color temp{*this};
     return temp += other;
+}
+
+template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type
+Color<DataType, channels>::operator+(Real val) const
+{
+    Color temp{*this};
+    return temp += val;
 }
 
 template<class DataType, unsigned int channels>
@@ -337,6 +358,18 @@ Color<DataType, channels>& Color<DataType, channels>::operator-=(const Color<ODa
 }
 
 template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
+Color<DataType, channels>::operator-=(Real val)
+{
+    for(auto& channel: m_data)
+    {
+        channel -= static_cast<DataType>(val);
+    }
+    return *this;
+}
+
+template<class DataType, unsigned int channels>
 template<class ODataType, unsigned int oDataSize>
 Color<DataType, channels> Color<DataType, channels>::operator-(const Color<ODataType, oDataSize>& other) const
 {
@@ -344,6 +377,15 @@ Color<DataType, channels> Color<DataType, channels>::operator-(const Color<OData
                   "Both colors must be of the same size and type");
     Color temp{*this};
     return temp -= other;
+}
+
+template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type
+Color<DataType, channels>::operator-(Real val) const
+{
+    Color temp{*this};
+    return temp -= val;
 }
 
 template<class DataType, unsigned int channels>
@@ -365,6 +407,17 @@ Color<DataType, channels>& Color<DataType, channels>::operator*=(const Color<ODa
     }
     return *this;
 }
+template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
+Color<DataType, channels>::operator*=(Real val)
+{
+    for(auto& channel: m_data)
+    {
+        channel *= val;
+    }
+    return *this;
+}
 
 template<class DataType, unsigned int channels>
 template<class ODataType, unsigned int oDataSize>
@@ -374,6 +427,15 @@ Color<DataType, channels> Color<DataType, channels>::operator*(const Color<OData
                   "Both colors must be of the same size and type");
     Color temp{*this};
     return temp *= other;
+}
+
+template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type
+  Color<DataType, channels>::operator*(Real val) const
+{
+    Color temp{*this};
+    return temp *= val;
 }
 
 template<class DataType, unsigned int channels>
@@ -390,6 +452,18 @@ Color<DataType, channels>& Color<DataType, channels>::operator/=(const Color<ODa
 }
 
 template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
+Color<DataType, channels>::operator/=(Real val)
+{
+    for(auto& channel: m_data)
+    {
+        channel /= val;
+    }
+    return *this;
+}
+
+template<class DataType, unsigned int channels>
 template<class ODataType, unsigned int oDataSize>
 Color<DataType, channels> Color<DataType, channels>::operator/(const Color<ODataType, oDataSize>& other) const
 {
@@ -398,5 +472,35 @@ Color<DataType, channels> Color<DataType, channels>::operator/(const Color<OData
     Color temp{*this};
     return temp /= other;
 }
+
+template<class DataType, unsigned int channels>
+template<class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type
+Color<DataType, channels>::operator/(Real val) const
+{
+    Color temp{*this};
+    return temp /= val;
+}
 } // namespace stbipp
 
+template<class DataType, unsigned int channels, class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, stbipp::Color<DataType, channels>>::type operator+(
+  Real val, const stbipp::Color<DataType, channels>& col)
+{
+    return col + val;
+}
+
+template<class DataType, unsigned int channels, class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, stbipp::Color<DataType, channels>>::type operator-(
+  Real val, const stbipp::Color<DataType, channels>& col)
+{
+    stbipp::Color<DataType, channels> retCol{val};
+    return retCol - col;
+}
+
+template<class DataType, unsigned int channels, class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, stbipp::Color<DataType, channels>>::type operator*(
+  Real val, const stbipp::Color<DataType, channels>& col)
+{
+    return col * val;
+}
