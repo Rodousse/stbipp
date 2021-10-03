@@ -36,6 +36,12 @@ struct is_data_type_compatible
 
 namespace stbipp
 {
+/**
+ * @brief Color class works like a classic mathematical vector with basic arithmetic operations
+ *
+ * @tparam DataType Type used to store individual elements
+ * @tparam channels Number of channels for the color
+ */
 template<class DataType, unsigned int channels>
 class Color
 {
@@ -335,12 +341,34 @@ class Color
     Color& operator+=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Add the content of other to this as an immutable object
+     * @brief Add the content of val to all channels of this
+     *
+     * @tparam Real val type
+     * @param[in] val Value to be added
+     *
+     * @return A reference to this
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type& operator+=(Real val);
+
+    /**
+     * @brief Add the content of other to this in a new object
      * @param[in] other The color to add
      * @return The addition of this and other
      */
     template<class ODataType, unsigned int oDataSize>
     Color operator+(const Color<ODataType, oDataSize>& other) const;
+
+    /**
+     * @brief Add the content of val to all channels of this in a new object
+     *
+     * @tparam Real val type
+     * @param[in] val Value to be added
+     *
+     * @return The addition of this and val
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type operator+(Real val) const;
 
     /**
      * @brief Substract the content of this by other
@@ -351,12 +379,34 @@ class Color
     Color& operator-=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Substract the content of this by other as an immutable object
+     * @brief Substract the content of val to all channels of this
+     *
+     * @tparam Real val type
+     * @param[in] val Value to be substracted
+     *
+     * @return A reference to this
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type& operator-=(Real val);
+
+    /**
+     * @brief Substract the content of this by other in a new object
      * @param[in] other The color to substract
      * @return The substraction of this by other
      */
     template<class ODataType, unsigned int oDataSize>
     Color operator-(const Color<ODataType, oDataSize>& other) const;
+
+    /**
+     * @brief Substract the content of val to all channels of this in a new object
+     *
+     * @tparam Real val type
+     * @param[in] val Value to be substracted
+     *
+     * @return The substraction of this and val
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type operator-(Real val) const;
 
     /**
      * @brief Negate the content of this
@@ -373,12 +423,34 @@ class Color
     Color& operator*=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Multiply the content of this by other as an immutable object
+     * @brief Multiply the content of val to all channels of this
+     *
+     * @tparam Real val type
+     * @param[in] val Value to multiply
+     *
+     * @return A reference to this
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type& operator*=(Real val);
+
+    /**
+     * @brief Multiply the content of this by other in a new object
      * @param[in] other The color to multiply
      * @return The multiplication of this by other
      */
     template<class ODataType, unsigned int oDataSize>
     Color operator*(const Color<ODataType, oDataSize>& other) const;
+
+    /**
+     * @brief Multiply the content of val to all channels of this in a new object
+     *
+     * @tparam Real val type
+     * @param[in] val Value to multiply
+     *
+     * @return The multiplication of this and val
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type operator*(Real val) const;
 
     /**
      * @brief Divide the content of this by other
@@ -389,16 +461,51 @@ class Color
     Color& operator/=(const Color<ODataType, oDataSize>& other);
 
     /**
-     * @brief Divide the content of this by other as an immutable object
+     * @brief Divide the content of all channels of this by val
+     *
+     * @tparam Real val type
+     * @param[in] val Value to divide by
+     *
+     * @return A reference to this
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type& operator/=(Real val);
+
+    /**
+     * @brief Divide the content of this by other in a new object
      * @param[in] other The color to divide
      * @return The division of this by other
      */
     template<class ODataType, unsigned int oDataSize>
     Color operator/(const Color<ODataType, oDataSize>& other) const;
-};
 
+    /**
+     * @brief Divide the content of all channels of this by val in a new object
+     *
+     * @tparam Real val type
+     * @param[in] val Value to divide by
+     *
+     * @return The division of this and val
+     */
+    template<class Real>
+    typename std::enable_if<is_data_type_compatible<Real>::value, Color>::type operator/(Real val) const;
+};
 } // namespace stbipp
+
+template<class DataType, unsigned int channels, class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, stbipp::Color<DataType, channels>>::type operator+(
+  Real val, const stbipp::Color<DataType, channels>& col);
+
+template<class DataType, unsigned int channels, class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, stbipp::Color<DataType, channels>>::type operator-(
+  Real val, const stbipp::Color<DataType, channels>& col);
+
+template<class DataType, unsigned int channels, class Real>
+typename std::enable_if<is_data_type_compatible<Real>::value, stbipp::Color<DataType, channels>>::type operator*(
+  Real val, const stbipp::Color<DataType, channels>& col);
+
 #include "stbipp/Color.inl"
+
 namespace stbipp
 {
 using Colorf = Color<float, 1>;
