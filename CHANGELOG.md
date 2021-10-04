@@ -3,6 +3,7 @@
 Features:
 - Add color channel iterators (iterator, const_iterator, reverse_iterator, const_reverse_iterator)
 - Add color binary operation with single float or integral value (see #17)
+- Add a continous integration workflow with github actions that compiles the lib on latest windows, ubuntu, macos (see #18)
 
 Refactor:
 - Move template function implementation in a separate file (see #20)

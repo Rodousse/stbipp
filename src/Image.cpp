@@ -1,6 +1,6 @@
 #include "stbipp/Image.hpp"
 
-#include <exception>
+#include <stdexcept>
 
 namespace stbipp
 {
