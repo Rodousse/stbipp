@@ -1,5 +1,8 @@
 # Stbipp
 
+![master](https://github.com/Rodousse/stbipp/actions/workflows/continuous-integration.yml/badge.svg?branch=master)
+![develop](https://github.com/Rodousse/stbipp/actions/workflows/continuous-integration.yml/badge.svg?branch=develop)
+
 Stbipp is a cross-platform small sized image I/O library based on [stb_image and stb_image_write](https://github.com/nothings/stb), developed in C++11.
 
 It brings an abstract layer between the features of stb_image and the developer, and CMake files to easily incorporate the library into your projects.
