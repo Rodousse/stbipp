@@ -32,10 +32,11 @@ FetchContent_Declare(
 
 FetchContent_GetProperties(stb_content)
 if(NOT stb_content_POPULATED)
+  message(STATUS "Populating content of stb")
   FetchContent_Populate(stb_content)
+  message(STATUS "    Sources in: ${stb_content_SOURCE_DIR}")
+  message(STATUS "    Binaries in: ${stb_content_BINARY_DIR}")
 endif()
-
-message(STATUS ${stb_content_SOURCE_DIR})
 
 ################################### Implementation ##############################
 
@@ -43,7 +44,8 @@ set(STBIPP_SOURCES
     src/Image.cpp
     src/ImageExporter.cpp
     src/ImageFormat.cpp
-    src/ImageImporter.cpp)
+    src/ImageImporter.cpp
+    )
 
 set(STBIPP_HEADERS
     src/stbipp/Color.hpp
@@ -51,7 +53,8 @@ set(STBIPP_HEADERS
     src/stbipp/Image.hpp
     src/stbipp/ImageFormat.hpp
     src/stbipp/ImageExporter.hpp
-    src/stbipp/ImageImporter.hpp)
+    src/stbipp/ImageImporter.hpp
+    )
 
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 set(STBIPP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/stbipp)
@@ -64,12 +67,13 @@ generate_export_header(${PROJECT_NAME}
   EXPORT_FILE_NAME ${GENERATED_DIR}/stbipp/StbippSymbols.h
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ${stb_content_SOURCE_DIR}
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE
+      ${stb_content_SOURCE_DIR}
     PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-    $<BUILD_INTERFACE:${GENERATED_DIR}>
-    $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+      $<BUILD_INTERFACE:${GENERATED_DIR}>
+      $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
     )
 
 
@@ -88,7 +92,7 @@ set(TARGETS_EXPORT_NAME ${PROJECT_NAME}Target)
 
 install(
     TARGETS
-    ${PROJECT_NAME}
+      ${PROJECT_NAME}
     EXPORT ${TARGETS_EXPORT_NAME}
     CONFIGURATIONS ${CMAKE_BUILD_TYPE}
     )
@@ -108,24 +112,25 @@ write_basic_package_version_file(
 
 install(
     DIRECTORY
-    src/stbipp
+      src/stbipp
     DESTINATION
-    ${INCLUDE_INSTALL_DIR}
+      ${INCLUDE_INSTALL_DIR}
     FILES_MATCHING 
-    PATTERN "*.hpp" 
-    PATTERN "*.inl"
+      PATTERN "*.hpp" 
+      PATTERN "*.inl"
     )
 
 install(
     FILES
-    ${GENERATED_DIR}/stbipp/StbippSymbols.h
+      ${GENERATED_DIR}/stbipp/StbippSymbols.h
     DESTINATION
-    ${STBIPP_INCLUDE_DIR}
+      ${STBIPP_INCLUDE_DIR}
     )
+
 install(
     FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfigVersion.cmake
+      ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfig.cmake
+      ${CMAKE_CURRENT_BINARY_DIR}/cmake/StbippConfigVersion.cmake
     DESTINATION ${CONFIG_INSTALL_DIR}
     )
 
