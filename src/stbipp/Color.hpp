@@ -284,6 +284,18 @@ class Color
      */
     DataType& operator[](int index);
 
+    /**
+     * @brief Compare this and other
+     * @return True if they are the same
+     */
+    bool operator==(const Color& other) const;
+
+    /**
+     * @brief Compare this and other
+     * @return True if they are the different
+     */
+    bool operator!=(const Color& other) const;
+
   private:
     /**
      * @brief Copy data of another color into this, with other uses the same data type as this but with possibly a
