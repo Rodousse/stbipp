@@ -4,10 +4,12 @@ Features:
 - Add color channel iterators (iterator, const_iterator, reverse_iterator, const_reverse_iterator)
 - Add color binary operation with single float or integral value (see #17)
 - Add a continous integration workflow with github actions that compiles the lib on latest windows, ubuntu, macos (see #18)
+- Add Image color row wise iterators (iterator, const_iterator, reverse_iterator, const_reverse_iterator)
 
 Refactor:
 - Move template function implementation in a separate file (see #20)
 - Change the CMake package compatibility strategy from `ExactVersion` to `SameMajorVersion`
+- Change majority of dirty handmade algorithm to STL ones
 
 Fix:
 - Fix the save function in the ImageExporter when saving an image in a non hdr format, with channel value greater than 1.0
@@ -15,6 +17,7 @@ Fix:
 - Fix `Image` move operations
 - Fix `Color` move and copy operations
 - Fix `Color` reverse iterator, was returning forward iterator instead
+- Fix `Image` returning a color copy with const accessor
 
 # v0.1.1
 
