@@ -82,7 +82,7 @@ int Image::width() const
     return m_width;
 }
 
-Image::Color Image::operator()(int column, int row) const
+const Image::Color& Image::operator()(int column, int row) const
 {
     if(column > m_width || column < 0 || row < 0 || row > m_height)
     {

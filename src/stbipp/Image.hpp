@@ -121,7 +121,7 @@ class STBIPP_API Image
      * @param[in] row The y coordinate
      * @return The color at the given coordinate
      */
-    Color operator()(int column, int row) const;
+    const Color& operator()(int column, int row) const;
 
     /**
      * @brief Accessor to the color at the specified coordinate
