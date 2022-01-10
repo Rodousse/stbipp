@@ -50,7 +50,7 @@ const Image::Color* Image::data() const
 
 void Image::fill(const Color& color)
 {
-    std::fill(m_data.begin(), m_data.end(), color);
+    std::fill(begin(), end(), color);
 }
 
 void Image::resize(int width, int height)
@@ -102,28 +102,20 @@ Image::Color& Image::operator()(int column, int row)
 
 Image& Image::operator=(const Image& other)
 {
-    resizeData(other.width(), other.height());
+    if(!(other.width() == m_width && other.height() == m_height))
+    {
+        m_width = other.width();
+        m_height = other.height();
+        std::vector<Color> newData(m_width * m_height);
+        std::swap(m_data, newData);
+    }
     copyData(other);
-    return *this;
-}
-
-Image& Image::operator=(Image&& other)
-{
-    m_width = other.width();
-    m_height = other.height();
-    std::swap(m_data, other.m_data);
     return *this;
 }
 
 void Image::copyData(const Image& other)
 {
-    for(int rowIndex = 0; rowIndex < other.m_height; ++rowIndex)
-    {
-        for(int columnIndex = 0; columnIndex < other.m_width; ++columnIndex)
-        {
-            (*this)(columnIndex, rowIndex) = static_cast<Color>(other(columnIndex, rowIndex));
-        }
-    }
+    std::copy(other.cbegin(), other.cend(), begin());
 }
 
 void Image::copyData(const unsigned char* data, int width, int height, ImageFormat pixelFormat)
@@ -189,6 +181,65 @@ void Image::resizeData(int width, int height)
     m_height = height;
     m_width = width;
     m_data.resize(height * width);
+}
+Image::iterator Image::begin() noexcept
+{
+    return m_data.begin();
+}
+
+Image::const_iterator Image::begin() const noexcept
+{
+    return m_data.begin();
+}
+
+Image::const_iterator Image::cbegin() const noexcept
+{
+    return m_data.cbegin();
+}
+
+Image::reverse_iterator Image::rbegin() noexcept
+{
+    return m_data.rbegin();
+}
+
+Image::const_reverse_iterator Image::rbegin() const noexcept
+{
+    return m_data.rbegin();
+}
+
+Image::const_reverse_iterator Image::crbegin() const noexcept
+{
+    return m_data.crbegin();
+}
+
+Image::iterator Image::end() noexcept
+{
+    return m_data.end();
+}
+
+Image::const_iterator Image::end() const noexcept
+{
+    return m_data.end();
+}
+
+Image::const_iterator Image::cend() const noexcept
+{
+    return m_data.cend();
+}
+
+Image::reverse_iterator Image::rend() noexcept
+{
+    return m_data.rend();
+}
+
+Image::const_reverse_iterator Image::rend() const noexcept
+{
+    return m_data.rend();
+}
+
+Image::const_reverse_iterator Image::crend() const noexcept
+{
+    return m_data.crend();
 }
 
 } // namespace stbipp

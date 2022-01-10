@@ -74,6 +74,12 @@ class STBIPP_API Image
     const Color* data() const;
 
     /**
+     * @brief Access the data of the first element
+     * @return Pointer to the color matrix data
+     */
+    Color* data();
+
+    /**
      * @brief Fill the image with the given color
      * @param[in] color The image will be filled with this color
      */
@@ -143,7 +149,7 @@ class STBIPP_API Image
      * @param[in] other The image to move
      * @return A reference to the image
      */
-    Image& operator=(Image&& other);
+    Image& operator=(Image&& other) = default;
 
   private:
     /**
@@ -189,6 +195,83 @@ class STBIPP_API Image
     std::vector<Color> m_data;
     int m_width{0};
     int m_height{0};
+
+  public:
+    using iterator = typename decltype(m_data)::iterator;
+    using const_iterator = typename decltype(m_data)::const_iterator;
+    using reverse_iterator = typename decltype(m_data)::reverse_iterator;
+    using const_reverse_iterator = typename decltype(m_data)::const_reverse_iterator;
+    /**
+     * @brief Returns a row wise iterator
+     * @return LegacyRandomAccessIterator
+     */
+    iterator begin() noexcept;
+
+    /**
+     * @brief Returns a row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator begin() const noexcept;
+
+    /**
+     * @brief Returns a row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator cbegin() const noexcept;
+
+    /**
+     * @brief Returns a reverse row wise iterator
+     * @return std::reverse_iterator<iterator>
+     */
+    reverse_iterator rbegin() noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise iterator
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator rbegin() const noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator crbegin() const noexcept;
+
+    /**
+     * @brief Returns a reverse row wise iterator
+     * @return LegacyRandomAccessIterator
+     */
+    iterator end() noexcept;
+
+    /**
+     * @brief Returns a constant row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator end() const noexcept;
+
+    /**
+     * @brief Returns a constant row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator cend() const noexcept;
+
+    /**
+     * @brief Returns a reverse row wise iterator
+     * @return std::reverse_iterator<iterator>
+     */
+    reverse_iterator rend() noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise iterator
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator rend() const noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise iterator
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator crend() const noexcept;
 };
 
 } // namespace stbipp
