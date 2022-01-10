@@ -1,4 +1,5 @@
 
+#include <cstring>
 namespace stbipp
 {
 template<class DataType, unsigned int channels>
@@ -28,6 +29,12 @@ template<class DataType, unsigned int channels>
 Color<DataType, channels>::Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
 {
     static_assert(channels > 3, "Can't set value beyond size of color (number of channels < 4)");
+}
+
+template<class DataType, unsigned int channels>
+Color<DataType, channels>::Color(const DataType* data)
+{
+    memcpy(m_data.data(), data, channels * sizeof(DataType));
 }
 
 template<class DataType, unsigned int channels>

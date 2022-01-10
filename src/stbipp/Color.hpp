@@ -94,6 +94,15 @@ class Color
     explicit Color(DataType r, DataType g, DataType b, DataType a);
 
     /**
+     * @brief Color constructor
+     *
+     * @param[in] data Copy the data contained in data
+     *
+     * @warn The memory shall be valid from data to data + channel * sizeof(DataType)
+     */
+    explicit Color(const DataType* data);
+
+    /**
      * @brief Color copy constructor
      *
      * @param[in] other Color to copy
