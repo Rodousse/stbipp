@@ -1,4 +1,6 @@
 
+#include <algorithm>
+#include <cstring>
 namespace stbipp
 {
 template<class DataType, unsigned int channels>
@@ -28,6 +30,12 @@ template<class DataType, unsigned int channels>
 Color<DataType, channels>::Color(DataType r, DataType g, DataType b, DataType a): m_data({r, g, b, a})
 {
     static_assert(channels > 3, "Can't set value beyond size of color (number of channels < 4)");
+}
+
+template<class DataType, unsigned int channels>
+Color<DataType, channels>::Color(const DataType* data)
+{
+    memcpy(m_data.data(), data, channels * sizeof(DataType));
 }
 
 template<class DataType, unsigned int channels>
@@ -213,19 +221,25 @@ DataType& Color<DataType, channels>::operator[](int index)
 }
 
 template<class DataType, unsigned int channels>
+bool Color<DataType, channels>::operator==(const Color<DataType, channels>& other) const
+{
+    return std::equal(cbegin(), cend(), other.cbegin());
+}
+
+template<class DataType, unsigned int channels>
+bool Color<DataType, channels>::operator!=(const Color<DataType, channels>& other) const
+{
+    return !(*(this) == other);
+}
+
+template<class DataType, unsigned int channels>
 template<class ODataType, unsigned int oDataSize>
 void Color<DataType, channels>::copy(const Color<ODataType, oDataSize>& other,
                                      typename std::enable_if<std::is_same<DataType, ODataType>::value>::type*)
 {
     std::size_t minSize = std::min(oDataSize, channels);
-    for(std::size_t index = 0; index < minSize; ++index)
-    {
-        m_data[index] = other[static_cast<int>(index)];
-    }
-    for(std::size_t index = minSize; index < channels; ++index)
-    {
-        m_data[index] = 0.0;
-    }
+    std::copy_n(other.cbegin(), minSize, begin());
+    std::fill(begin() + minSize, end(), 0.0);
 }
 
 template<class DataType, unsigned int channels>
@@ -239,10 +253,7 @@ void Color<DataType, channels>::copy(
     {
         m_data[index] = static_cast<DataType>(other[static_cast<int>(index)]) / std::numeric_limits<ODataType>::max();
     }
-    for(std::size_t index = minSize; index < channels; ++index)
-    {
-        m_data[index] = 0.0;
-    }
+    std::fill(begin() + minSize, end(), 0.0);
 }
 
 template<class DataType, unsigned int channels>
@@ -256,10 +267,7 @@ void Color<DataType, channels>::copy(
     {
         m_data[index] = static_cast<DataType>(std::numeric_limits<DataType>::max() * other[static_cast<int>(index)]);
     }
-    for(std::size_t index = minSize; index < channels; ++index)
-    {
-        m_data[index] = static_cast<DataType>(0.0);
-    }
+    std::fill(begin() + minSize, end(), 0.0);
 }
 
 template<class DataType, unsigned int channels>
@@ -275,10 +283,7 @@ void Color<DataType, channels>::copy(
           static_cast<DataType>((static_cast<double>(other[index]) * std::numeric_limits<DataType>::max()) /
                                 std::numeric_limits<ODataType>::max());
     }
-    for(std::size_t index = minSize; index < channels; ++index)
-    {
-        m_data[index] = 0.0;
-    }
+    std::fill(begin() + minSize, end(), 0.0);
 }
 
 template<class DataType, unsigned int channels>
@@ -306,10 +311,7 @@ Color<DataType, channels>& Color<DataType, channels>::operator+=(const Color<ODa
 {
     static_assert(oDataSize == channels && std::is_same<DataType, ODataType>::value,
                   "Both colors must be of the same size and type");
-    for(auto comp = 0; comp < channels; ++comp)
-    {
-        m_data[comp] += other[comp];
-    }
+    std::transform(begin(), end(), other.begin(), begin(), [](DataType lhs, ODataType rhs) { return lhs + rhs; });
     return *this;
 }
 
@@ -318,10 +320,7 @@ template<class Real>
 typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
 Color<DataType, channels>::operator+=(Real val)
 {
-    for(auto& channel: m_data)
-    {
-        channel += static_cast<DataType>(val);
-    }
+    std::transform(begin(), end(), begin(), [val](DataType lhs) { return lhs + val; });
     return *this;
 }
 
@@ -350,10 +349,7 @@ Color<DataType, channels>& Color<DataType, channels>::operator-=(const Color<ODa
 {
     static_assert(oDataSize == channels && std::is_same<DataType, ODataType>::value,
                   "Both colors must be of the same size and type");
-    for(auto comp = 0; comp < channels; ++comp)
-    {
-        m_data[comp] -= other[comp];
-    }
+    std::transform(begin(), end(), other.begin(), begin(), [](DataType lhs, ODataType rhs) { return lhs - rhs; });
     return *this;
 }
 
@@ -362,10 +358,7 @@ template<class Real>
 typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
 Color<DataType, channels>::operator-=(Real val)
 {
-    for(auto& channel: m_data)
-    {
-        channel -= static_cast<DataType>(val);
-    }
+    std::transform(begin(), end(), begin(), [val](DataType lhs) { return lhs - val; });
     return *this;
 }
 
@@ -401,21 +394,15 @@ Color<DataType, channels>& Color<DataType, channels>::operator*=(const Color<ODa
 {
     static_assert(oDataSize == channels && std::is_same<DataType, ODataType>::value,
                   "Both colors must be of the same size and type");
-    for(auto comp = 0; comp < channels; ++comp)
-    {
-        m_data[comp] *= other[comp];
-    }
+    std::transform(begin(), end(), other.begin(), begin(), [](DataType lhs, ODataType rhs) { return lhs * rhs; });
     return *this;
-}
+} // namespace stbipp
 template<class DataType, unsigned int channels>
 template<class Real>
 typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
 Color<DataType, channels>::operator*=(Real val)
 {
-    for(auto& channel: m_data)
-    {
-        channel *= val;
-    }
+    std::transform(begin(), end(), begin(), [val](DataType lhs) { return lhs * val; });
     return *this;
 }
 
@@ -444,10 +431,7 @@ Color<DataType, channels>& Color<DataType, channels>::operator/=(const Color<ODa
 {
     static_assert(oDataSize == channels && std::is_same<DataType, ODataType>::value,
                   "Both colors must be of the same size and type");
-    for(auto comp = 0; comp < channels; ++comp)
-    {
-        m_data[comp] /= other[comp];
-    }
+    std::transform(begin(), end(), other.begin(), begin(), [](DataType lhs, ODataType rhs) { return lhs / rhs; });
     return *this;
 }
 
@@ -456,10 +440,7 @@ template<class Real>
 typename std::enable_if<is_data_type_compatible<Real>::value, Color<DataType, channels>>::type&
 Color<DataType, channels>::operator/=(Real val)
 {
-    for(auto& channel: m_data)
-    {
-        channel /= val;
-    }
+    std::transform(begin(), end(), begin(), [val](DataType lhs) { return lhs / val; });
     return *this;
 }
 

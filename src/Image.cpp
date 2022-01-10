@@ -14,21 +14,21 @@ Image::Image(int width, int height, const Color& color): Image(width, height)
     fill(color);
 }
 
-Image::Image(void* data, int width, int height, ImageFormat pixelFormat): Image(width, height)
+Image::Image(const void* data, int width, int height, ImageFormat pixelFormat): Image(width, height)
 {
     if(isFormat8Bits(pixelFormat))
     {
-        auto* ucdata = static_cast<unsigned char*>(data);
+        auto* ucdata = static_cast<const unsigned char*>(data);
         copyData(ucdata, width, height, pixelFormat);
     }
     else if(isFormat16Bits(pixelFormat))
     {
-        auto* usdata = static_cast<unsigned short*>(data);
+        auto* usdata = static_cast<const unsigned short*>(data);
         copyData(usdata, width, height, pixelFormat);
     }
     else if(isFormat32Bits(pixelFormat))
     {
-        auto* fdata = static_cast<float*>(data);
+        auto* fdata = static_cast<const float*>(data);
         copyData(fdata, width, height, pixelFormat);
     }
 }
@@ -50,7 +50,7 @@ const Image::Color* Image::data() const
 
 void Image::fill(const Color& color)
 {
-    std::fill(m_data.begin(), m_data.end(), color);
+    std::fill(begin(), end(), color);
 }
 
 void Image::resize(int width, int height)
@@ -82,11 +82,11 @@ int Image::width() const
     return m_width;
 }
 
-Image::Color Image::operator()(int column, int row) const
+const Image::Color& Image::operator()(int column, int row) const
 {
     if(column > m_width || column < 0 || row < 0 || row > m_height)
     {
-        throw std::runtime_error("Trying to access out of range value");
+        throw std::out_of_range("Trying to access out of range value");
     }
     return m_data[row * m_width + column];
 }
@@ -95,38 +95,30 @@ Image::Color& Image::operator()(int column, int row)
 {
     if(column > m_width || column < 0 || row < 0 || row > m_height)
     {
-        throw std::runtime_error("Trying to access out of range value");
+        throw std::out_of_range("Trying to access out of range value");
     }
     return m_data[row * m_width + column];
 }
 
 Image& Image::operator=(const Image& other)
 {
-    resizeData(other.width(), other.height());
+    if(!(other.width() == m_width && other.height() == m_height))
+    {
+        m_width = other.width();
+        m_height = other.height();
+        std::vector<Color> newData(m_width * m_height);
+        std::swap(m_data, newData);
+    }
     copyData(other);
-    return *this;
-}
-
-Image& Image::operator=(Image&& other)
-{
-    m_width = other.width();
-    m_height = other.height();
-    std::swap(m_data, other.m_data);
     return *this;
 }
 
 void Image::copyData(const Image& other)
 {
-    for(int rowIndex = 0; rowIndex < other.m_height; ++rowIndex)
-    {
-        for(int columnIndex = 0; columnIndex < other.m_width; ++columnIndex)
-        {
-            (*this)(columnIndex, rowIndex) = static_cast<Color>(other(columnIndex, rowIndex));
-        }
-    }
+    std::copy(other.cbegin(), other.cend(), begin());
 }
 
-void Image::copyData(unsigned char* data, int width, int height, ImageFormat pixelFormat)
+void Image::copyData(const unsigned char* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -144,7 +136,7 @@ void Image::copyData(unsigned char* data, int width, int height, ImageFormat pix
     }
 }
 
-void Image::copyData(unsigned short* data, int width, int height, ImageFormat pixelFormat)
+void Image::copyData(const unsigned short* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -162,7 +154,7 @@ void Image::copyData(unsigned short* data, int width, int height, ImageFormat pi
     }
 }
 
-void Image::copyData(float* data, int width, int height, ImageFormat pixelFormat)
+void Image::copyData(const float* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -189,6 +181,65 @@ void Image::resizeData(int width, int height)
     m_height = height;
     m_width = width;
     m_data.resize(height * width);
+}
+Image::iterator Image::begin() noexcept
+{
+    return m_data.begin();
+}
+
+Image::const_iterator Image::begin() const noexcept
+{
+    return m_data.begin();
+}
+
+Image::const_iterator Image::cbegin() const noexcept
+{
+    return m_data.cbegin();
+}
+
+Image::reverse_iterator Image::rbegin() noexcept
+{
+    return m_data.rbegin();
+}
+
+Image::const_reverse_iterator Image::rbegin() const noexcept
+{
+    return m_data.rbegin();
+}
+
+Image::const_reverse_iterator Image::crbegin() const noexcept
+{
+    return m_data.crbegin();
+}
+
+Image::iterator Image::end() noexcept
+{
+    return m_data.end();
+}
+
+Image::const_iterator Image::end() const noexcept
+{
+    return m_data.end();
+}
+
+Image::const_iterator Image::cend() const noexcept
+{
+    return m_data.cend();
+}
+
+Image::reverse_iterator Image::rend() noexcept
+{
+    return m_data.rend();
+}
+
+Image::const_reverse_iterator Image::rend() const noexcept
+{
+    return m_data.rend();
+}
+
+Image::const_reverse_iterator Image::crend() const noexcept
+{
+    return m_data.crend();
 }
 
 } // namespace stbipp

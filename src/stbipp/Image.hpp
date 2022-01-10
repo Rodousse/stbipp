@@ -48,7 +48,7 @@ class STBIPP_API Image
      * e.g : RGBA8 this means that data is pointing to an unsigned char array of dimension :
      * width * height * formatChannelCount(pixelFormat))
      */
-    Image(void* data, int width, int height, ImageFormat pixelFormat);
+    Image(const void* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Image copy constructor
@@ -72,6 +72,12 @@ class STBIPP_API Image
      * @return Pointer to the color matrix data
      */
     const Color* data() const;
+
+    /**
+     * @brief Access the data of the first element
+     * @return Pointer to the color matrix data
+     */
+    Color* data();
 
     /**
      * @brief Fill the image with the given color
@@ -121,7 +127,7 @@ class STBIPP_API Image
      * @param[in] row The y coordinate
      * @return The color at the given coordinate
      */
-    Color operator()(int column, int row) const;
+    const Color& operator()(int column, int row) const;
 
     /**
      * @brief Accessor to the color at the specified coordinate
@@ -143,7 +149,7 @@ class STBIPP_API Image
      * @param[in] other The image to move
      * @return A reference to the image
      */
-    Image& operator=(Image&& other);
+    Image& operator=(Image&& other) = default;
 
   private:
     /**
@@ -159,7 +165,7 @@ class STBIPP_API Image
      * @param[in] height Image height
      * @param[in] pixelFormat The pixel format describing the data format
      */
-    void copyData(unsigned char* data, int width, int height, ImageFormat pixelFormat);
+    void copyData(const unsigned char* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Copy the data at the given location
@@ -168,7 +174,7 @@ class STBIPP_API Image
      * @param[in] height Image height
      * @param[in] pixelFormat The pixel format describing the data format
      */
-    void copyData(unsigned short* data, int width, int height, ImageFormat pixelFormat);
+    void copyData(const unsigned short* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Copy the data at the given location
@@ -177,7 +183,7 @@ class STBIPP_API Image
      * @param[in] height Image height
      * @param[in] pixelFormat The pixel format describing the data format
      */
-    void copyData(float* data, int width, int height, ImageFormat pixelFormat);
+    void copyData(const float* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Resize the pixel matrix
@@ -187,8 +193,85 @@ class STBIPP_API Image
     void resizeData(int width, int height);
 
     std::vector<Color> m_data;
-    int m_width;
-    int m_height;
+    int m_width{0};
+    int m_height{0};
+
+  public:
+    using iterator = typename decltype(m_data)::iterator;
+    using const_iterator = typename decltype(m_data)::const_iterator;
+    using reverse_iterator = typename decltype(m_data)::reverse_iterator;
+    using const_reverse_iterator = typename decltype(m_data)::const_reverse_iterator;
+    /**
+     * @brief Returns a row wise iterator
+     * @return LegacyRandomAccessIterator
+     */
+    iterator begin() noexcept;
+
+    /**
+     * @brief Returns a row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator begin() const noexcept;
+
+    /**
+     * @brief Returns a row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator cbegin() const noexcept;
+
+    /**
+     * @brief Returns a reverse row wise iterator
+     * @return std::reverse_iterator<iterator>
+     */
+    reverse_iterator rbegin() noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise iterator
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator rbegin() const noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator crbegin() const noexcept;
+
+    /**
+     * @brief Returns a reverse row wise iterator
+     * @return LegacyRandomAccessIterator
+     */
+    iterator end() noexcept;
+
+    /**
+     * @brief Returns a constant row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator end() const noexcept;
+
+    /**
+     * @brief Returns a constant row wise iterator
+     * @return Constant LegacyRandomAccessIterator
+     */
+    const_iterator cend() const noexcept;
+
+    /**
+     * @brief Returns a reverse row wise iterator
+     * @return std::reverse_iterator<iterator>
+     */
+    reverse_iterator rend() noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise iterator
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator rend() const noexcept;
+
+    /**
+     * @brief Returns a constant reverse row wise iterator
+     * @return std::reverse_iterator<const_iterator>
+     */
+    const_reverse_iterator crend() const noexcept;
 };
 
 } // namespace stbipp
