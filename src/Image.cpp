@@ -14,21 +14,21 @@ Image::Image(int width, int height, const Color& color): Image(width, height)
     fill(color);
 }
 
-Image::Image(void* data, int width, int height, ImageFormat pixelFormat): Image(width, height)
+Image::Image(const void* data, int width, int height, ImageFormat pixelFormat): Image(width, height)
 {
     if(isFormat8Bits(pixelFormat))
     {
-        auto* ucdata = static_cast<unsigned char*>(data);
+        auto* ucdata = static_cast<const unsigned char*>(data);
         copyData(ucdata, width, height, pixelFormat);
     }
     else if(isFormat16Bits(pixelFormat))
     {
-        auto* usdata = static_cast<unsigned short*>(data);
+        auto* usdata = static_cast<const unsigned short*>(data);
         copyData(usdata, width, height, pixelFormat);
     }
     else if(isFormat32Bits(pixelFormat))
     {
-        auto* fdata = static_cast<float*>(data);
+        auto* fdata = static_cast<const float*>(data);
         copyData(fdata, width, height, pixelFormat);
     }
 }
@@ -86,7 +86,7 @@ Image::Color Image::operator()(int column, int row) const
 {
     if(column > m_width || column < 0 || row < 0 || row > m_height)
     {
-        throw std::runtime_error("Trying to access out of range value");
+        throw std::out_of_range("Trying to access out of range value");
     }
     return m_data[row * m_width + column];
 }
@@ -95,7 +95,7 @@ Image::Color& Image::operator()(int column, int row)
 {
     if(column > m_width || column < 0 || row < 0 || row > m_height)
     {
-        throw std::runtime_error("Trying to access out of range value");
+        throw std::out_of_range("Trying to access out of range value");
     }
     return m_data[row * m_width + column];
 }
@@ -126,7 +126,7 @@ void Image::copyData(const Image& other)
     }
 }
 
-void Image::copyData(unsigned char* data, int width, int height, ImageFormat pixelFormat)
+void Image::copyData(const unsigned char* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -144,7 +144,7 @@ void Image::copyData(unsigned char* data, int width, int height, ImageFormat pix
     }
 }
 
-void Image::copyData(unsigned short* data, int width, int height, ImageFormat pixelFormat)
+void Image::copyData(const unsigned short* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {
@@ -162,7 +162,7 @@ void Image::copyData(unsigned short* data, int width, int height, ImageFormat pi
     }
 }
 
-void Image::copyData(float* data, int width, int height, ImageFormat pixelFormat)
+void Image::copyData(const float* data, int width, int height, ImageFormat pixelFormat)
 {
     for(int rowIndex = 0; rowIndex < height; ++rowIndex)
     {

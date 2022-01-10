@@ -48,7 +48,7 @@ class STBIPP_API Image
      * e.g : RGBA8 this means that data is pointing to an unsigned char array of dimension :
      * width * height * formatChannelCount(pixelFormat))
      */
-    Image(void* data, int width, int height, ImageFormat pixelFormat);
+    Image(const void* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Image copy constructor
@@ -159,7 +159,7 @@ class STBIPP_API Image
      * @param[in] height Image height
      * @param[in] pixelFormat The pixel format describing the data format
      */
-    void copyData(unsigned char* data, int width, int height, ImageFormat pixelFormat);
+    void copyData(const unsigned char* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Copy the data at the given location
@@ -168,7 +168,7 @@ class STBIPP_API Image
      * @param[in] height Image height
      * @param[in] pixelFormat The pixel format describing the data format
      */
-    void copyData(unsigned short* data, int width, int height, ImageFormat pixelFormat);
+    void copyData(const unsigned short* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Copy the data at the given location
@@ -177,7 +177,7 @@ class STBIPP_API Image
      * @param[in] height Image height
      * @param[in] pixelFormat The pixel format describing the data format
      */
-    void copyData(float* data, int width, int height, ImageFormat pixelFormat);
+    void copyData(const float* data, int width, int height, ImageFormat pixelFormat);
 
     /**
      * @brief Resize the pixel matrix
@@ -187,8 +187,8 @@ class STBIPP_API Image
     void resizeData(int width, int height);
 
     std::vector<Color> m_data;
-    int m_width;
-    int m_height;
+    int m_width{0};
+    int m_height{0};
 };
 
 } // namespace stbipp
