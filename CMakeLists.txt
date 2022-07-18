@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED_LIBS "Build STBIPP as shared Library" ON)
 option(STBIPP_BUILD_EXAMPLE "Build STBIPP examples" ON)
+option(STBIPP_BUILD_TESTS "Build STBIPP tests" OFF)
 
 include(FetchContent)
 include(CMakePackageConfigHelpers)
@@ -134,10 +135,16 @@ install(
     DESTINATION ${CONFIG_INSTALL_DIR}
     )
 
+################################### Tests ##############################
+
+if(STBIPP_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(test)
+endif()
 
 ################################### Example ##############################
 
-if(${STBIPP_BUILD_EXAMPLE})
+if(STBIPP_BUILD_EXAMPLE)
     set(STBIPP_EX_SOURCES
         example/main.cpp)
     add_executable(stbipp_example ${STBIPP_EX_SOURCES})
